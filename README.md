@@ -1,6 +1,6 @@
 # Photo App 📸
 
-A simple photo app built with **React** and styled with **plain CSS**. Api usage:  [Pixabay API](https://pixabay.com/api/).
+A simple photo app built with **React** and styled with **plain CSS**. Api usage:  [Pixabay API].
 
 ## Purpose 🎯
 
@@ -14,7 +14,7 @@ Just to really learn React. Still a beginner but will get there eventually ;)
 
 ## Demo 🎬
 
-Check it out here: [Link to your app]
+Check it out here (CodeSandBox): [https://codesandbox.io/p/sandbox/photo-app-latest-2-forked-currently-working-c8fhys]
 
 ## Tech Stack 🚀
 
@@ -26,4 +26,4 @@ Check it out here: [Link to your app]
 
 1. Clone the repo:
    ```bash
-   git clone https://github.com/your-username/photo-app.git
+   git clone https://github.com/AmbitiousCalvin/PhotoWebsite.git
