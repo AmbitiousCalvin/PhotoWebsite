@@ -19,6 +19,7 @@ Check it out here (CodeSandBox): [https://codesandbox.io/p/sandbox/photo-app-lat
 ## Tech Stack 🚀
 
 - **React** for the frontend
+- **Typescript** haven't learned it yet (Auto coompleted by Codesandbox)
 - **Plain CSS** for styling
 - **Pixabay API** for fetching photos
 
