@@ -11,6 +11,8 @@ Just to really learn React. Still a beginner but will get there eventually ;)
 - Search for pics by keyword
 - Browse high-quality stock photos
 - Responsive design
+- Dark/Light theme
+- KeyBoard Shortcuts (Ctrl + K for SearchBar and Ctrl + X for clearing SearchBar Input)
 
 ## Demo 🎬
 
