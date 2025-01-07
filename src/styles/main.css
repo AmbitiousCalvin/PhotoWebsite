@@ -1,0 +1,186 @@
+.main-content-container .dropdown-list {
+  right: 0;
+  transform: scale(1);
+  top: 100%;
+}
+
+main {
+  border-top: 1px solid var(--color-grey);
+  padding: var(--padding);
+}
+
+.main-content-container {
+  min-height: 150vh;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+.main-content-container h2 {
+  font-size: var(--h1-size);
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 10px;
+  padding: 16px;
+}
+
+.grid-item {
+  position: relative;
+  width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: clip;
+}
+
+.grid-item img {
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  object-fit: cover; 
+}
+
+.photo-tags,
+.photo-status {
+  color: var(--color-white)
+  padding: 5px;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.1s;
+  text-align: left;
+}
+
+.photo-status {
+  border-radius: 0;
+}
+
+.grid-item p {
+  margin: 0;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  /* transform: translateY(-100%); */
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  text-align: center;
+  border-radius: 8px;
+  padding: 10px;
+  transition: opacity 0.15s ease;
+}
+
+.grid-item:hover .overlay {
+  opacity: 1;
+}
+
+.author-info {
+  position: absolute;
+  top: 0;
+  padding: 1rem;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.author-name-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.image-container {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 100%;
+  margin-right: 10px;
+}
+
+.author-image {
+  object-fit: cover;
+  height: 100%;
+  border-radius: 100%;
+}
+
+.author-name {
+  font-weight: bold;
+  font-size: 14px;
+  word-wrap: break-word; /* Break long words if needed */
+  white-space: normal; /* Prevents text from staying on one line */
+  max-width: 150px; /* Ensures text respects container width */
+  text-align: left;
+}
+
+.photo-info {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.download-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 1.5rem;
+  background-color: #28a745;
+  color: #fff; /* White icon */
+  border-radius: 0.5rem;
+  transition: all 0.15s ease; /* Smooth transition for hover effects */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  font-size: 1.6rem;
+}
+
+.download-btn:hover {
+  background-color: #218838; /* Darker green on hover */
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2); /* Enhance shadow on hover */
+}
+
+.download-btn:active {
+  transform: scale(0.95); /* Slightly shrink on click */
+  background-color: #1e7e34; /* Even darker green on click */
+}
+
+
+
+
+select {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  appearance: none; /* Removes default dropdown arrow (optional) */
+  cursor: pointer;
+}
+
+select:focus {
+  outline: none;
+  border-color: #007bff; /* Blue border on focus */
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Subtle glow */
+}
+
+option {
+  font-size: 16px;
+  padding: 8px;
+  background-color: #f8f9fa; /* Light gray background for options */
+  color: #333;
+}
+
+option:hover {
+  background-color: #e9ecef; /* Slightly darker gray on hover */
+}
