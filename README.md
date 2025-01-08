@@ -16,7 +16,7 @@ Just to really learn React. Still a beginner but will get there eventually ;)
 
 ## Demo 🎬
 
-Check it out here (CodeSandBox): [https://codesandbox.io/p/sandbox/photo-app-latest-2-forked-currently-working-c8fhys]
+Check it out here (CodeSandBox): [https://7n7f66.csb.app]
 
 ## Tech Stack 🚀
 
