@@ -5,8 +5,6 @@ import { Loading } from "./loading";
 import DropdownSelect from "./select";
 import "./styles/main.css";
 
-// Fetch Photos Utility
-
 function Grid(props: any) {
   const photos = props.photos;
 
@@ -88,9 +86,14 @@ function Grid(props: any) {
                 id={index}
                 style={{
                   gridRowEnd: `span ${rowSpan}`,
+                  height: `${photo.webImageHeight}px`,
                 }}
               >
-                <img src={photo.webformatURL} alt={photo.tags} />
+                <img
+                  className="main-img"
+                  src={photo.webformatURL}
+                  alt={photo.tags}
+                />
 
                 <div className="overlay">
                   <div className="author-info">
@@ -101,7 +104,6 @@ function Grid(props: any) {
                             className="author-image"
                             src={photo.userImageURL}
                             alt={photo.user}
-                            loading="lazy"
                           />
                         </div>
                       )}

@@ -1,0 +1,39 @@
+  const [page, setPage] = useState(1);
+  const [photos, setPhotos] = useState([]);
+  const apiUrl = "https://api.pexels.com/v1/curated/";
+
+  const fetchPhotos = async (page) => {
+    try {
+      const response = await fetch(`${apiUrl}?page=${page}&per_page=15`, {
+        method: "get",
+        headers: {
+          Authorization:
+            "P3KeC5CvYDfcp3brfSziJUx1FC2ghTYqfPu8uooxevb5eMLzwECThv7h",
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log("data", data);
+        setPhotos((prev) => {
+          const existingIds = new Set(prev.map((photo) => photo.id));
+          const uniquePhotos = data.photos.filter(
+            (photo) => !existingIds.has(photo.id)
+          );
+          return [...prev, ...uniquePhotos];
+        });
+      } else {
+        throw new Error("Failed to fetch photos");
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  useEffect(() => {
+    if (photos.length > 0) console.log(photos);
+  }, [photos]);
+
+  useEffect(() => {
+    fetchPhotos();
+  }, []);

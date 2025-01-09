@@ -6,6 +6,7 @@ import {
   useEffect,
   useRef,
 } from "react";
+import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 
 function DropDown(props: {
   default: any;
@@ -45,7 +46,15 @@ function DropDownListItem(props: {
     | null
     | undefined;
 }) {
-  return <div className="list-item">{props.children}</div>;
+  return (
+    <Link
+      onClick={props.onClick}
+      to={props.path}
+      className={`list-item ${props.class}`}
+    >
+      {props.children}
+    </Link>
+  );
 }
 
 function InputContainer(props: {

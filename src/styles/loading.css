@@ -1,0 +1,28 @@
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 10vh; /* Full screen height */
+  background-color: var(--bg-color); /* Optional background color */
+}
+
+.dot {
+  width: 15px;
+  height: 15px;
+  margin: 0 5px;
+  background-color: var(--color-white); /* Dot color */
+  border-radius: 50%;
+  animation: bounce 1.5s infinite ease-in-out;
+  animation-delay: var(--delay);
+}
+
+@keyframes bounce {
+  0%,
+  80%,
+  100% {
+    transform: scale(0);
+  }
+  40% {
+    transform: scale(1);
+  }
+}
