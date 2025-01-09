@@ -1,8 +1,7 @@
-import { faClosedCaptioning } from "@fortawesome/free-solid-svg-icons";
 import { SetStateAction, useEffect, useState, useRef } from "react";
 import { InputContainer, DropDown, DropDownListItem, Icon } from "./general";
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
-import "./styles/header.css";
+import "../styles/header.css";
 
 interface HeaderProps {
   darkMode: boolean;
@@ -13,7 +12,6 @@ function Header({ onSubmit }) {
   const [darkMode, setDarkMode] = useState<boolean>(
     JSON.parse(localStorage.getItem("darkMode") || "true")
   );
-  const [showInput, setShowInput] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [openNav, setOpenNav] = useState(false);
   const [input, setInput] = useState("");
@@ -31,7 +29,6 @@ function Header({ onSubmit }) {
 
   // Effect for scroll and resize events
   useEffect(() => {
-    const handleScroll = () => setShowInput(window.scrollY >= 10);
     const handleResize = () => {
       if (window.innerWidth > 580) setOpenNav(false);
       if (window.innerWidth > 800) setIsOpen(false);
@@ -58,12 +55,10 @@ function Header({ onSubmit }) {
       }
     };
 
-    window.addEventListener("scroll", handleScroll);
     window.addEventListener("resize", handleResize);
     document.addEventListener("keydown", handleKeydown);
 
     return () => {
-      window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("resize", handleResize);
       document.removeEventListener("keydown", handleKeydown);
     };
@@ -76,7 +71,7 @@ function Header({ onSubmit }) {
   const clearInput = () => setInput("");
 
   return (
-    <header data-show={showInput}>
+    <header>
       {/* Logo Section */}
       <div className="logo">
         <h1>Soundscape</h1>
@@ -149,7 +144,7 @@ function Header({ onSubmit }) {
           <Icon class={!openNav ? "fas fa-bars" : "fa-solid fa-xmark"} />
         </li>
 
-        <div className="sidebar-menu-container">
+        <div className={`sidebar-menu-container ${openNav ? "showMenu" : ""}`}>
           <div className="flex-container">
             <li
               className="btn toggle-theme-btn"
@@ -226,14 +221,24 @@ function Header({ onSubmit }) {
                     icon: "fa-solid fa-globe",
                     text: "Discover Photos",
                     path: "/",
+                    title: "Work in progress",
                   },
-                  { icon: "fa-regular fa-circle-play", text: "Free Videos" },
+                  {
+                    icon: "fa-regular fa-circle-play",
+                    text: "Free Videos",
+                    title: "Work in progress",
+                  },
                   {
                     icon: "fa-solid fa-window-restore",
                     text: "Soundscape Blog",
+                    title: "Work in progress",
                   },
                 ].map((item, index) => (
-                  <DropDownListItem key={index} path={item.path && item.path}>
+                  <DropDownListItem
+                    title={item.title}
+                    key={index}
+                    path={item.path && item.path}
+                  >
                     <Icon class={item.icon} />
                     {item.text}
                   </DropDownListItem>

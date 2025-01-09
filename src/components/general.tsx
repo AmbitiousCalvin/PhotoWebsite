@@ -48,6 +48,7 @@ function DropDownListItem(props: {
 }) {
   return (
     <Link
+      title={props.title}
       onClick={props.onClick}
       to={props.path}
       className={`list-item ${props.class}`}

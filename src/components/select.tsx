@@ -4,10 +4,10 @@ import { DropDown, DropDownListItem } from "./general";
 function DropdownSelect(props: any) {
   const [selectedOption, setSelectedOption] = useState(props.options[0].text);
 
-  const handleSelectChange = (value) => {
-    console.log(value);
-    setSelectedOption(value);
-    props.handleSubmit(`${props.query} ${value}`);
+  const handleSelectChange = (value, text) => {
+    console.log(text);
+    setSelectedOption(text);
+    props.handleSubmit(props.query, value);
   };
 
   return (
@@ -27,7 +27,7 @@ function DropdownSelect(props: any) {
         <DropDown default={true}>
           {props.options.map((item, index) => (
             <DropDownListItem
-              onClick={() => handleSelectChange(item.text)}
+              onClick={() => handleSelectChange(item.value, item.text)}
               class={"btn-border btn-square"}
               key={index}
             >
