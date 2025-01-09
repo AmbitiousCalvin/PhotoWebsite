@@ -1,0 +1,45 @@
+/* Slider container style */
+.slider-container {
+  padding: var(--padding);
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin: 1rem var(--padding);
+  border-radius: 1rem;
+  box-shadow: var(--box-shadow);
+}
+
+/* Left and Right buttons */
+.slider-container .icon {
+  position: absolute;
+  background-color: var(--color-opacity);
+  cursor: pointer;
+  z-index: 1000;
+}
+
+.slider-container .icon:hover {
+  background-color: var(--color-opacity-hover);
+}
+
+.left {
+  left: 1rem;
+}
+
+.right {
+  right: 1rem;
+}
+
+/* Slider content container */
+.slider-content {
+  display: flex;
+  overflow: hidden;
+  gap: 0.8rem;
+}
+
+/* Individual slider item style */
+.slider-item {
+  cursor: pointer;
+  font-size: 1.4rem;
+  white-space: nowrap;
+  border-radius: 0.65rem;
+}

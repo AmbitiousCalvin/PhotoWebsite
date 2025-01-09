@@ -1,6 +1,7 @@
 import { faClosedCaptioning } from "@fortawesome/free-solid-svg-icons";
 import { SetStateAction, useEffect, useState, useRef } from "react";
 import { InputContainer, DropDown, DropDownListItem, Icon } from "./general";
+import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 import "./styles/header.css";
 
 interface HeaderProps {
@@ -9,7 +10,6 @@ interface HeaderProps {
 }
 
 function Header({ onSubmit }) {
-  // State management
   const [darkMode, setDarkMode] = useState<boolean>(
     JSON.parse(localStorage.getItem("darkMode") || "true")
   );
@@ -69,7 +69,6 @@ function Header({ onSubmit }) {
     };
   }, []);
 
-  // Handlers
   const toggleSearchBar = () => setIsOpen((prev) => !prev);
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInput(e.target.value);
@@ -90,7 +89,13 @@ function Header({ onSubmit }) {
         }
       >
         {!openNav && (
-          <label className="search-bar-icon" htmlFor="search-bar">
+          <label
+            title={
+              !isOpen ? "Ctrl + K (Shortcut)" : "Ctrl + ArrowLeft (Go Back)"
+            }
+            className="search-bar-icon"
+            htmlFor="search-bar"
+          >
             <li className="icon" onClick={toggleSearchBar}>
               <Icon
                 class={
@@ -113,7 +118,7 @@ function Header({ onSubmit }) {
           hasDropDown={false}
           id="search-bar"
         >
-          <DropDown hasSection={true} default={false}>
+          {/* <DropDown hasSection={true} default={false}>
             <div className="title-container">
               <h2>Recent Searches</h2>
               <div className="btn">Clear</div>
@@ -134,6 +139,7 @@ function Header({ onSubmit }) {
               ))}
             </div>
           </DropDown>
+       */}
         </InputContainer>
       </section>
 
@@ -158,19 +164,29 @@ function Header({ onSubmit }) {
             </li>
 
             {[
-              { icon: "fa-solid fa-globe", text: "Discover Photos" },
-              { icon: "fa-regular fa-circle-play", text: "Free Videos" },
+              { icon: "fa-solid fa-globe", text: "Discover Photos", path: "/" },
+              {
+                icon: "fa-regular fa-circle-play",
+                text: "Free Videos",
+                isTitle: "true",
+              },
               {
                 icon: "fa-solid fa-window-restore",
-                text: "Soundsplash Blog",
+                isTitle: "true",
+                text: "Soundscape Blog",
+                isTitle: "true",
               },
-              { icon: "fa-solid fa-circle-user", text: "Guest" },
-              { icon: "fa-solid fa-gear", text: "Settings" },
+              { icon: "fa-solid fa-gear", text: "Settings", isTitle: "true" },
             ].map((item, index) => (
-              <div key={index} className="btn btn-square">
+              <Link
+                to={item.path}
+                title={item.isTitle && "Work in progress"}
+                key={index}
+                className="btn btn-square"
+              >
                 <Icon class={item.icon} />
                 {item.text}
-              </div>
+              </Link>
             ))}
           </div>
 
@@ -206,14 +222,18 @@ function Header({ onSubmit }) {
               <Icon class="fa-solid fa-angle-right" />
               <DropDown hasSection={false} default={true}>
                 {[
-                  { icon: "fa-solid fa-globe", text: "Discover Photos" },
+                  {
+                    icon: "fa-solid fa-globe",
+                    text: "Discover Photos",
+                    path: "/",
+                  },
                   { icon: "fa-regular fa-circle-play", text: "Free Videos" },
                   {
                     icon: "fa-solid fa-window-restore",
-                    text: "Soundsplash Blog",
+                    text: "Soundscape Blog",
                   },
                 ].map((item, index) => (
-                  <DropDownListItem key={index}>
+                  <DropDownListItem key={index} path={item.path && item.path}>
                     <Icon class={item.icon} />
                     {item.text}
                   </DropDownListItem>
@@ -235,19 +255,20 @@ function Header({ onSubmit }) {
             </li>
 
             {/* More Options Dropdown */}
-            <li className="icon btn dropdown-item">
-              <Icon class="fa-solid fa-ellipsis" />
-              <DropDown default={true} hasSection={false}>
-                {[
-                  { icon: "fa-solid fa-circle-user", text: "Guest" },
-                  { icon: "fa-solid fa-gear", text: "Settings" },
-                ].map((item, index) => (
-                  <DropDownListItem key={index}>
-                    <Icon class={item.icon} />
-                    {item.text}
-                  </DropDownListItem>
-                ))}
+            <li title={"Work in progress"} className="icon btn dropdown-item">
+              {/* <Icon class="fa-solid fa-ellipsis" /> */}
+              <Icon class="fa-solid fa-gear" />
+              {/* <DropDown default={true} hasSection={false}>
+                {[{ icon: "fa-solid fa-gear", text: "Settings" }].map(
+                  (item, index) => (
+                    <DropDownListItem key={index}>
+                      <Icon class={item.icon} />
+                      {item.text}
+                    </DropDownListItem>
+                  )
+                )}
               </DropDown>
+            */}
             </li>
 
             {/* Join Button */}

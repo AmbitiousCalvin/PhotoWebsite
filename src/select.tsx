@@ -1,29 +1,41 @@
 import React, { useState } from "react";
+import { DropDown, DropDownListItem } from "./general";
 
 function DropdownSelect(props: any) {
-  const [selectedOption, setSelectedOption] = useState("");
+  const [selectedOption, setSelectedOption] = useState(props.options[0].text);
 
-  const handleSelectChange = (event: {
-    target: { value: React.SetStateAction<string> };
-  }) => {
-    setSelectedOption(event.target.value);
-    props.handleSubmit(`${props.query} ${event.target.value}`);
+  const handleSelectChange = (value) => {
+    console.log(value);
+    setSelectedOption(value);
+    props.handleSubmit(`${props.query} ${value}`);
   };
 
   return (
     <div className="dropdown-container">
-      <select
+      <input
+        type={"checkbox"}
+        id="checkbox"
+        style={{ display: "none" }}
+      ></input>
+
+      <label
         id="trending-select"
+        htmlFor="checkbox"
         className="btn dropdown-item btn-border btn-square"
-        value={selectedOption}
-        onChange={handleSelectChange}
       >
-        {props.options?.map((option, index) => (
-          <option value={option.value} key={index}>
-            {option.text}
-          </option>
-        ))}
-      </select>
+        {selectedOption}
+        <DropDown default={true}>
+          {props.options.map((item, index) => (
+            <DropDownListItem
+              onClick={() => handleSelectChange(item.text)}
+              class={"btn-border btn-square"}
+              key={index}
+            >
+              {item.text}
+            </DropDownListItem>
+          ))}
+        </DropDown>
+      </label>
     </div>
   );
 }
