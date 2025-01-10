@@ -1,20 +1,43 @@
 import { MainContent } from "./main";
-import { useState, useEffect, useCallback, SetStateAction } from "react";
+import { MyContext } from "./App";
+import { Slider } from "./components/slider";
+import "./styles/slider.css";
+import {
+  useState,
+  useEffect,
+  useCallback,
+  SetStateAction,
+  useContext,
+  memo
+} from "react";
 
-const apiKey = "47893918-d8d9d596b7cdac04fed7aca68";
-const apiUrl = "https://pixabay.com/api/videos/";
+function Videopage() {
+  const { query, order } = useContext(MyContext);
 
-function Homepage({ handleSubmit, query }) {
+  const [videoType, setVideoType] = useState("all");
   const [page, setPage] = useState(1);
   const [videos, setVideos] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [prevQuery, setPrevQuery] = useState(query);
+  const [prevOrder, setPrevOrder] = useState(order);
+  const [prevType, setPrevType] = useState(videoType);
+
+  const apiKey = "47893918-d8d9d596b7cdac04fed7aca68";
+  const apiUrl = "https://pixabay.com/api/videos/";
 
   useEffect(() => {
     if (query !== prevQuery) {
       setVideos([]);
       setPrevQuery(query);
+    }
+    if (order !== prevOrder) {
+      setVideos([]);
+      setPrevOrder(order);
+    }
+    if (videoType !== prevType) {
+      setVideos([]);
+      setPrevType(videoType);
     }
   });
 
@@ -29,18 +52,18 @@ function Homepage({ handleSubmit, query }) {
         }
       }
     },
-    [query, loading, page]
+    [videos, loading, page, query]
   );
 
   useEffect(() => {
     const options = {
       root: null,
       rootMargin: "0px",
-      threshold: 1,
+      threshold: 0.5,
     };
 
     const observer = new IntersectionObserver(observerCallback, options);
-    const lastItem = document.querySelector(".grid-item:nth-last-child(1)");
+    const lastItem = document.querySelector(".grid-item .grid-item:nth-last-child(1)");
 
     if (lastItem) {
       observer.observe(lastItem);
@@ -49,14 +72,15 @@ function Homepage({ handleSubmit, query }) {
     return () => {
       if (lastItem) observer.unobserve(lastItem);
     };
-  }, [query, page, observerCallback]);
+  }, [videos, query, page, observerCallback]);
 
   useEffect(() => {
     const fetchvideos = async (query: SetStateAction<string>, page) => {
       try {
+        setError(false);
         setLoading(true);
         const response = await fetch(
-          `${apiUrl}?key=${apiKey}&q=${query}&page=${page}&per_page=15`
+          `${apiUrl}?key=${apiKey}&q=${query}&order=${order}&image_type=${videoType}&page=${page}&per_page=15`
         );
 
         if (response.ok) {
@@ -72,7 +96,8 @@ function Homepage({ handleSubmit, query }) {
           throw new Error("Failed to fetch videos");
         }
       } catch (error) {
-        setError(error.message);
+        console.log(error.message);
+        setError(true);
       } finally {
         setTimeout(() => {
           setLoading(false);
@@ -81,18 +106,44 @@ function Homepage({ handleSubmit, query }) {
     };
 
     fetchvideos(query, page);
-  }, [page, query]);
+  }, [page, query, videoType, order]);
 
   return (
     <>
+      <Slider
+        slider_items={[
+          { text: "Videos" },
+          { text: "Backgrounds" },
+          { text: "Fashion" },
+          { text: "Nature" },
+          { text: "Science" },
+          { text: "Education" },
+          { text: "Feelings" },
+          { text: "Health" },
+          { text: "People" },
+          { text: "Religion" },
+          { text: "Places" },
+          { text: "Animals" },
+          { text: "Industry" },
+          { text: "Computer" },
+          { text: "Food" },
+          { text: "Sports" },
+          { text: "Transportation" },
+          { text: "Travel" },
+          { text: "Buildings" },
+          { text: "Business" },
+          { text: "Music" },
+        ]}
+      />
       <MainContent
-        videos={videos}
-        query={query}
-        handleSubmit={handleSubmit}
+        items={videos}
+        type={"video"}
         loading={loading}
       />
     </>
   );
 }
 
-export { Homepage };
+const MemoizedVideopage = memo(Videopage)
+
+export { MemoizedVideopage as Videopage };

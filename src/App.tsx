@@ -1,10 +1,15 @@
 import "./styles/styles.css";
 import "./styles/loading.css";
+import "./styles/error.css";
 
 import { Homepage } from "./Homepage";
-import { Header } from "./header";
+import { Videopage } from "./Videopage"
+import { Header } from "./components/header";
+import { InitialLoading } from "./components/loading";
+import ScrollToTop from "./components/ScrollToTop";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { useState, useEffect, useCallback, SetStateAction } from "react";
+import { createContext, useState, SetStateAction, useMemo, useEffect } from "react";
+export const MyContext = createContext(null)
 
 const apiKey = "47893918-d8d9d596b7cdac04fed7aca68";
 const apiUrl = "https://pixabay.com/api/";
@@ -34,58 +39,62 @@ const popularPhotoQueries = [
   "snow",
   "abstract",
   "technology",
-  "business",
   "fitness",
   "art",
-  "sports",
-  "car",
-  "interior design",
-  "coffee",
-  "desert",
-  "vacation",
-  "birthday",
-  "wedding",
-  "fitness",
-  "mountain bike",
-  "wildlife",
-  "children",
-  "hiking",
-  "coffee shop",
-  "summer",
-  "winter",
-  "black and white",
-  "night",
-  "nightlife",
-  "street",
-  "fashion",
-  "romantic",
 ];
+
 
 export default function App() {
   const randomQuery = Math.floor(Math.random() * popularPhotoQueries.length);
   const [query, setQuery] = useState(popularPhotoQueries[randomQuery]);
+  const [order, setOrder] = useState("popular");
+  const [isLoading, setIsLoading] = useState(false);
 
-  function handleSubmit(query: SetStateAction<string>) {
-    console.log("Called from App", query);
-    setQuery(query);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 750);
+
+    return () => clearTimeout(timer);
+  }, [isLoading]);
+
+
+  const handleSubmit = (query: SetStateAction<string>, order: SetStateAction<string>) => {
+    setIsLoading(true);
 
     window.scrollTo({
       top: 0,
       behavior: "smooth",
     });
+
+    setQuery(query);
+    if (order !== "") setOrder(order);
   }
+
+  const contextValue = useMemo(() => ({ handleSubmit, order, query }), [query, order]);
+
 
   return (
     <>
-      <Router>
-        <Header onSubmit={handleSubmit} />
+      <MyContext.Provider value={contextValue}>
+        {isLoading && <InitialLoading />}
+        <ScrollToTop />
+        <Header />
+
         <Routes>
           <Route
-            path="/"
-            element={<Homepage handleSubmit={handleSubmit} query={query} />}
+            path="/" element={<Homepage />}
+
           />
+          <Route path="/photos" element={<Homepage />} />
+
+          <Route
+            path="/video" element={<Videopage />}
+          />
+
         </Routes>
-      </Router>
+
+      </MyContext.Provider>
     </>
   );
 }

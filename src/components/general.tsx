@@ -4,21 +4,22 @@ import {
   ReactNode,
   ReactPortal,
   useEffect,
-  useRef,
+  useContext
 } from "react";
-import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { MyContext } from "../App"
 
 function DropDown(props: {
   default: any;
   children:
-    | string
-    | number
-    | boolean
-    | ReactElement<any, string | JSXElementConstructor<any>>
-    | Iterable<ReactNode>
-    | ReactPortal
-    | null
-    | undefined;
+  | string
+  | number
+  | boolean
+  | ReactElement<any, string | JSXElementConstructor<any>>
+  | Iterable<ReactNode>
+  | ReactPortal
+  | null
+  | undefined;
   hasSection: any;
 }) {
   return (
@@ -37,14 +38,14 @@ function Icon(props: { class: string | undefined }) {
 
 function DropDownListItem(props: {
   children:
-    | string
-    | number
-    | boolean
-    | ReactElement<any, string | JSXElementConstructor<any>>
-    | Iterable<ReactNode>
-    | ReactPortal
-    | null
-    | undefined;
+  | string
+  | number
+  | boolean
+  | ReactElement<any, string | JSXElementConstructor<any>>
+  | Iterable<ReactNode>
+  | ReactPortal
+  | null
+  | undefined;
 }) {
   return (
     <Link
@@ -64,19 +65,21 @@ function InputContainer(props: {
   handleChange: any;
   clearChange: any;
   input: any;
-  onSubmit: any;
+  handleSubmit: any;
   setInput: any;
   inputRef: any;
   children:
-    | string
-    | number
-    | boolean
-    | ReactElement<any, string | JSXElementConstructor<any>>
-    | Iterable<ReactNode>
-    | ReactPortal
-    | null
-    | undefined;
+  | string
+  | number
+  | boolean
+  | ReactElement<any, string | JSXElementConstructor<any>>
+  | Iterable<ReactNode>
+  | ReactPortal
+  | null
+  | undefined;
 }) {
+  const { handleSubmit } = useContext(MyContext)
+
   useEffect(() => {
     const handleKeydown = (event: {
       ctrlKey: any;
@@ -101,7 +104,7 @@ function InputContainer(props: {
     <form
       onSubmit={(e) => {
         e.preventDefault();
-        props.onSubmit(props.input);
+        handleSubmit(props.input);
         props.setInput("");
       }}
       className={

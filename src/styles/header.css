@@ -14,10 +14,6 @@ header {
   min-height: 70px;
 }
 
-header[data-show="true"] {
-  box-shadow: var(--box-shadow); /* Unchanged */
-}
-
 nav ul {
   display: flex;
   gap: 0.8rem;
@@ -145,6 +141,7 @@ header:has(.header-middle-section.full-view) .header-right-section {
   position: absolute;
   background-color: var(--bg-color);
   border-top: 1px solid var(--color-grey-border);
+  border-left: 2px solid var(--color-grey-border);
   top: 7rem;
   right: 0px;
   display: flex;
@@ -152,17 +149,20 @@ header:has(.header-middle-section.full-view) .header-right-section {
   flex-direction: column;
   width: 100%;
   min-height: 150vh;
-  transform: translateX(100%);
+  transform: translateX(105%);
   box-shadow: var(--box-shadow);
   z-index: -1;
   overflow-y: scroll;
+  transition: transform 0.75s;
 }
 
 body:has(.header-right-section.showMenu) {
   overflow: hidden;
+  padding-right: 1.2rem;
 }
 
-.header-right-section.showMenu .sidebar-menu-container {
+.header-right-section.showMenu .sidebar-menu-container,
+.sidebar-menu-container.showMenu {
   transition: transform 0.75s;
   transform: translateX(0%);
 }

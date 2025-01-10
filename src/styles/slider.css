@@ -1,12 +1,13 @@
 /* Slider container style */
 .slider-container {
+  position: sticky;
+  top: calc(70px);
   padding: var(--padding);
   display: flex;
   align-items: center;
-  position: relative;
-  margin: 1rem var(--padding);
-  border-radius: 1rem;
   box-shadow: var(--box-shadow);
+  z-index: 1900;
+  background-color: var(--bg-color);
 }
 
 /* Left and Right buttons */
@@ -42,4 +43,25 @@
   font-size: 1.4rem;
   white-space: nowrap;
   border-radius: 0.65rem;
+  transition: all 0.1s;
+  background-color: var(--bg-color);
+  opacity: 0.8;
+}
+
+.slider-item:hover {
+  opacity: 1;
+}
+
+.slider-item:has(.slider-radio:checked) {
+  background-color: var(--color-white);
+  color: var(--color-dark);
+  opacity: 1;
+}
+
+.slider-item:has(.slider-radio:checked):hover {
+  background-color: var(--color-white-hover);
+}
+
+.slider-item:has(.slider-radio:checked):active {
+  background-color: var(--color-white-active);
 }

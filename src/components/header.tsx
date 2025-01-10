@@ -1,14 +1,41 @@
-import { SetStateAction, useEffect, useState, useRef } from "react";
+
+import { useEffect, useState, useRef, useContext, memo } from "react";
 import { InputContainer, DropDown, DropDownListItem, Icon } from "./general";
-import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "../styles/header.css";
+import { MyContext } from "../App"
 
-interface HeaderProps {
-  darkMode: boolean;
-  setDarkMode: React.Dispatch<React.SetStateAction<boolean>>;
-}
+const popularPhotoQueries = [
+  "Nature",
+  "Travel",
+  "Adventure",
+  "Food",
+  "Music",
+  "Art",
+  "Love",
+  "Beauty",
+  "Sports",
+  "Fitness",
+  "Technology",
+  "Fashion",
+  "Animals",
+  "Architecture",
+  "Landscape",
+  "Nightlife",
+  "Events",
+  "Holidays",
+  "Lifestyle",
+  "Science",
+  "History",
+  "Family",
+  "Culture",
+  "People",
+  "Urban",
+];
 
-function Header({ onSubmit }) {
+
+function Header() {
+  const { setIsLoading, handleSubmit, query } = useContext(MyContext)
   const [darkMode, setDarkMode] = useState<boolean>(
     JSON.parse(localStorage.getItem("darkMode") || "true")
   );
@@ -17,10 +44,17 @@ function Header({ onSubmit }) {
   const [input, setInput] = useState("");
   const inputRef = useRef(null);
 
-  // Effect for theme handling
   useEffect(() => {
-    document.body.className = darkMode ? "dark-theme" : "light-theme";
-    localStorage.setItem("darkMode", JSON.stringify(darkMode));
+    const timeout = setTimeout(() => {
+      localStorage.setItem("darkMode", JSON.stringify(darkMode));
+    }, 100);
+
+    const themeClass = darkMode ? "dark-theme" : "light-theme";
+    if (document.body.className !== themeClass) {
+      document.body.className = themeClass;
+    }
+
+    return () => clearTimeout(timeout);
   }, [darkMode]);
 
   useEffect(() => {
@@ -105,7 +139,6 @@ function Header({ onSubmit }) {
 
         <InputContainer
           inputRef={inputRef}
-          onSubmit={onSubmit}
           input={input}
           setInput={setInput}
           clearChange={clearInput}
@@ -113,28 +146,7 @@ function Header({ onSubmit }) {
           hasDropDown={false}
           id="search-bar"
         >
-          {/* <DropDown hasSection={true} default={false}>
-            <div className="title-container">
-              <h2>Recent Searches</h2>
-              <div className="btn">Clear</div>
-            </div>
 
-            <div className="flex-container">
-              {[
-                "Health And Wellness",
-                "Photo",
-                "Wallpaper",
-                "USA",
-                "Lorem",
-              ].map((text, index) => (
-                <div key={index} className="btn btn-border btn-square">
-                  {text}
-                  <i className="fa-solid fa-magnifying-glass"></i>
-                </div>
-              ))}
-            </div>
-          </DropDown>
-       */}
         </InputContainer>
       </section>
 
@@ -159,11 +171,26 @@ function Header({ onSubmit }) {
             </li>
 
             {[
-              { icon: "fa-solid fa-globe", text: "Discover Photos", path: "/" },
+              {
+                icon: "fa-solid fa-globe", text: "Discover Photos", path: "/photos",
+
+                onClick: () => {
+                  const randomQuery = Math.floor(Math.random() * popularPhotoQueries.length);
+                  setOpenNav(false)
+                  handleSubmit(popularPhotoQueries[randomQuery])
+                },
+
+              },
               {
                 icon: "fa-regular fa-circle-play",
                 text: "Free Videos",
                 isTitle: "true",
+                path: "/video",
+                onClick: () => {
+                  const randomQuery = Math.floor(Math.random() * popularPhotoQueries.length);
+                  setOpenNav(false)
+                  handleSubmit(popularPhotoQueries[randomQuery])
+                },
               },
               {
                 icon: "fa-solid fa-window-restore",
@@ -174,6 +201,7 @@ function Header({ onSubmit }) {
               { icon: "fa-solid fa-gear", text: "Settings", isTitle: "true" },
             ].map((item, index) => (
               <Link
+                onClick={item.onClick}
                 to={item.path}
                 title={item.isTitle && "Work in progress"}
                 key={index}
@@ -220,13 +248,20 @@ function Header({ onSubmit }) {
                   {
                     icon: "fa-solid fa-globe",
                     text: "Discover Photos",
-                    path: "/",
-                    title: "Work in progress",
+                    path: "/photos",
+                    onClick: () => {
+                      const randomQuery = Math.floor(Math.random() * popularPhotoQueries.length);
+                      handleSubmit(popularPhotoQueries[randomQuery])
+                    },
                   },
                   {
                     icon: "fa-regular fa-circle-play",
                     text: "Free Videos",
-                    title: "Work in progress",
+                    path: "/video",
+                    onClick: () => {
+                      const randomQuery = Math.floor(Math.random() * popularPhotoQueries.length);
+                      handleSubmit(popularPhotoQueries[randomQuery])
+                    },
                   },
                   {
                     icon: "fa-solid fa-window-restore",
@@ -238,6 +273,7 @@ function Header({ onSubmit }) {
                     title={item.title}
                     key={index}
                     path={item.path && item.path}
+                    onClick={item.onClick}
                   >
                     <Icon class={item.icon} />
                     {item.text}
@@ -261,19 +297,7 @@ function Header({ onSubmit }) {
 
             {/* More Options Dropdown */}
             <li title={"Work in progress"} className="icon btn dropdown-item">
-              {/* <Icon class="fa-solid fa-ellipsis" /> */}
               <Icon class="fa-solid fa-gear" />
-              {/* <DropDown default={true} hasSection={false}>
-                {[{ icon: "fa-solid fa-gear", text: "Settings" }].map(
-                  (item, index) => (
-                    <DropDownListItem key={index}>
-                      <Icon class={item.icon} />
-                      {item.text}
-                    </DropDownListItem>
-                  )
-                )}
-              </DropDown>
-            */}
             </li>
 
             {/* Join Button */}
@@ -285,4 +309,6 @@ function Header({ onSubmit }) {
   );
 }
 
-export { Header };
+const MemoizedHeader = memo(Header);
+
+export { MemoizedHeader as Header };
