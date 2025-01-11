@@ -161,12 +161,6 @@ body:has(.header-right-section.showMenu) {
   padding-right: 1.2rem;
 }
 
-.explore-btn:hover .dropdown-list,
-.explore-btn.hovering .dropdown-list {
-  opacity: 1;
-  visibility: visible;
-}
-
 .header-right-section.showMenu .sidebar-menu-container,
 .sidebar-menu-container.showMenu {
   transition: transform 0.75s;
@@ -211,4 +205,13 @@ body:has(.header-right-section.showMenu) {
   font-size: 1.1rem; /* Smaller font for copyright text */
   color: #666;
   margin-top: 1rem;
+}
+
+.btn.dropdown-item:hover .dropdown-list,
+.btn.dropdown-item.explore-btn:hover .dropdown-list,
+.btn.dropdown-item.explore-btn.hovering .dropdown-list,
+.btn.dropdown-item.hovering .dropdown-list {
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: scale(1);
 }
