@@ -2,8 +2,10 @@ import "./styles/styles.css";
 import "./styles/loading.css";
 import "./styles/error.css";
 
-import { Homepage } from "./Homepage";
-import { Videopage } from "./Videopage";
+import { Homepage } from "./pages/Homepage.js";
+import { Preview } from "./pages/Preview";
+import { Videopage } from "./pages/Videopage";
+import { NotFoundpage } from "./pages/NotFound";
 import { Header } from "./components/header";
 import { InitialLoading } from "./components/loading";
 import { ScrollToTopButton } from "./components/ScrollToTopBtn";
@@ -81,10 +83,11 @@ export default function App() {
         <Header />
 
         <Routes>
-          <Route path="/" element={<Homepage />} />
+          {/* <Route path="/" element={<Homepage />} /> */}
           <Route path="/photos" element={<Homepage />} />
-
           <Route path="/video" element={<Videopage />} />
+          <Route path="/preview" element={<Preview />} />
+          <Route path="/" element={<NotFoundpage />} />
         </Routes>
       </MyContext.Provider>
     </>

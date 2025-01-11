@@ -148,12 +148,21 @@ header:has(.header-middle-section.full-view) .header-right-section {
   padding: var(--padding);
   flex-direction: column;
   width: 100%;
-  min-height: 150vh;
   transform: translateX(105%);
   box-shadow: var(--box-shadow);
   z-index: -1;
-  overflow-y: scroll;
   transition: transform 0.75s;
+}
+
+.sidebar-menu-container::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--bg-color);
+  z-index: -100;
 }
 
 body:has(.header-right-section.showMenu) {

@@ -21,25 +21,38 @@ function MainContent(props) {
   return (
     <main>
       <section className="main-content-container">
-        <div className="title-container">
-          <h2>Free Stock {props.type === "photo" ? "Photos" : "Videos"}</h2>
-          <DropdownSelect
-            query={query}
-            handleSubmit={handleSubmit}
-            options={[
-              { value: "popular", text: "Trending" },
-              { value: "latest", text: "New" },
-            ]}
-          />
-        </div>
+        {props.error !== "not-found" && (
+          <div className="title-container">
+            <h2>Free Stock {props.type === "photo" ? "Photos" : "Videos"}</h2>
+            <DropdownSelect
+              query={query}
+              handleSubmit={handleSubmit}
+              options={[
+                { value: "popular", text: "Trending" },
+                { value: "latest", text: "New" },
+              ]}
+            />
+          </div>
+        )}
 
-        {props.type === "photo" && props.items.length !== 0 && loaded && <PhotoItem photos={props.items} />
-        }
-        {props.type === "video" && props.items.length !== 0 && loaded && <VideoItem videos={props.items} />}
+        {props.type === "photo" && props.items.length !== 0 && loaded && (
+          <PhotoItem photos={props.items} />
+        )}
+        {props.type === "video" && props.items.length !== 0 && loaded && (
+          <VideoItem videos={props.items} />
+        )}
         {props.loading && <Loading />}
+
         {!props.loading && props.items.length === 0 && !loaded && (
           <ErrorComponent
-            message={`Oops! That doesn’t seem right. Could you check your input and try again?`}
+            custom_class={props.custom_class}
+            html={props.children}
+            image={props.image}
+            message={
+              props.message
+                ? props.message
+                : `Oops! That doesn’t seem right. Could you check your input and try again?`
+            }
           />
         )}
       </section>
