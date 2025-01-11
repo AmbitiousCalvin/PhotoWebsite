@@ -3,14 +3,7 @@ import { Icon } from "./components/general";
 import { Slider } from "./components/slider";
 import { MyContext } from "./App";
 import "./styles/slider.css";
-import {
-  useState,
-  useEffect,
-  useCallback,
-  SetStateAction,
-  useContext,
-  memo
-} from "react";
+import { useState, useEffect, useCallback, useContext, memo } from "react";
 
 function Homepage() {
   const { query, order } = useContext(MyContext);
@@ -68,10 +61,10 @@ function Homepage() {
       const lastItem = document.querySelector(".grid-item:last-child");
 
       if (lastItem) {
-        console.log(lastItem)
+        console.log(lastItem);
         observer.observe(lastItem);
       }
-    }, 750)
+    }, 750);
 
     return () => {
       const observer = new IntersectionObserver(observerCallback, options);
@@ -143,16 +136,11 @@ function Homepage() {
           { text: "Current Events" },
         ]}
       />
-      <MainContent
-        items={photos}
-        type={"photo"}
-        loading={loading}
-      />
+      <MainContent items={photos} type={"photo"} loading={loading} />
     </>
   );
 }
 
-
-const MemoizedHomepage = memo(Homepage)
+const MemoizedHomepage = memo(Homepage);
 
 export { MemoizedHomepage as Homepage };

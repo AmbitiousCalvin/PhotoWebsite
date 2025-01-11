@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, useContext, memo } from "react";
+import { useEffect, useState, useRef, useContext } from "react";
 import { InputContainer, DropDown, DropDownListItem, Icon } from "./general";
 import { Link } from "react-router-dom";
 import "../styles/header.css";
@@ -33,7 +33,7 @@ const popularPhotoQueries = [
 ];
 
 function Header() {
-  const { setIsLoading, handleSubmit, query } = useContext(MyContext);
+  const { handleSubmit } = useContext(MyContext);
   const [darkMode, setDarkMode] = useState(
     JSON.parse(localStorage.getItem("darkMode") || "true")
   );
@@ -41,6 +41,32 @@ function Header() {
   const [openNav, setOpenNav] = useState(false);
   const [input, setInput] = useState("");
   const inputRef = useRef(null);
+  const buttonRef = useRef(null);
+
+  useEffect(() => {
+    const button = buttonRef.current;
+
+    const handleMouseEnter = () => {
+      if (button) button.classList.add("hovering");
+    };
+
+    const handleMouseLeave = () => {
+      if (button) button.classList.remove("hovering");
+    };
+
+    if (button) {
+      button.addEventListener("mouseenter", handleMouseEnter);
+      button.addEventListener("mouseleave", handleMouseLeave);
+    }
+
+    // Cleanup function
+    return () => {
+      if (button) {
+        button.removeEventListener("mouseenter", handleMouseEnter);
+        button.removeEventListener("mouseleave", handleMouseLeave);
+      }
+    };
+  }, []);
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -169,11 +195,11 @@ function Header() {
                 path: "/photos",
 
                 onClick: () => {
-                  const randomQuery = Math.floor(
-                    Math.random() * popularPhotoQueries.length
+                  const random = Math.floor(
+                    Math.random * popularPhotoQueries.length
                   );
                   setOpenNav(false);
-                  handleSubmit(popularPhotoQueries[randomQuery]);
+                  handleSubmit(popularPhotoQueries[random]);
                 },
               },
               {
@@ -182,11 +208,11 @@ function Header() {
                 isTitle: "true",
                 path: "/video",
                 onClick: () => {
-                  const randomQuery = Math.floor(
-                    Math.random() * popularPhotoQueries.length
+                  const random = Math.floor(
+                    Math.random * popularPhotoQueries.length
                   );
                   setOpenNav(false);
-                  handleSubmit(popularPhotoQueries[randomQuery]);
+                  handleSubmit(popularPhotoQueries[random]);
                 },
               },
               {
@@ -282,10 +308,10 @@ function Header() {
         <nav>
           <ul>
             {/* Explore Dropdown */}
-            <li className="btn dropdown-item explore-btn">
+            <li ref={buttonRef} className="btn dropdown-item explore-btn">
               Explore
               <Icon class="fa-solid fa-angle-right" />
-              <DropDown hasSection={false} default={true}>
+              <DropDown default={true}>
                 {[
                   {
                     icon: "fa-solid fa-globe",
@@ -377,6 +403,4 @@ function Header() {
   );
 }
 
-const MemoizedHeader = memo(Header);
-
-export { MemoizedHeader as Header };
+export { Header };

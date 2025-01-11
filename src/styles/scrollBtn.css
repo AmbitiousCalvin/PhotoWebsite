@@ -1,0 +1,68 @@
+.scroll-top-btn {
+  position: fixed;
+  z-index: 1000;
+  bottom: 2rem;
+  right: 50%;
+  transform: translateX(50%) scale(1.2);
+  box-shadow: 0 0 5px 2px var(--color-dark);
+  background-color: var(--color-white);
+  color: var(--color-dark);
+}
+
+.scroll-top-btn i {
+  font-size: 1.8rem;
+  pointer-events: none;
+}
+
+.scroll-top-btn:hover {
+  color: var(--color-dark);
+  background-color: var(--color-white-hover);
+}
+
+.scroll-top-btn:active {
+  color: var(--color-dark);
+  background-color: var(--color-white-active);
+}
+
+.scroll-top-btn::after {
+  content: "Go Back to Top";
+  position: absolute;
+  bottom: calc(100% + 1rem);
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--color-dark);
+  border: 1px solid var(--color-white);
+  color: var(--color-white);
+  padding: 0.8rem 1rem;
+  border-radius: 5px;
+  font-size: 1.2rem;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  white-space: nowrap;
+}
+
+.scroll-top-btn:hover::after {
+  opacity: 1;
+  visibility: visible;
+}
+
+.scroll-top-btn::before {
+  content: "";
+  position: absolute;
+  bottom: calc(100% - 0.6rem);
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 0.8rem;
+  border-style: solid;
+  border-color: var(--color-white) transparent transparent transparent;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.scroll-top-btn:hover::after,
+.scroll-top-btn:hover::before {
+  opacity: 1;
+  visibility: visible;
+}

@@ -4,14 +4,14 @@ import {
   ReactNode,
   ReactPortal,
   useEffect,
-  useContext
+  useContext,
 } from "react";
 import { Link } from "react-router-dom";
-import { MyContext } from "../App"
+import { MyContext } from "../App";
 
 function DropDown(props) {
   return (
-    <div className="dropdown-list">
+    <div className="dropdown-list" ref={props.ref}>
       {props.default && props.children}
       {props.hasSection && (
         <section className="dropdown-section">{props.children}</section>
@@ -38,7 +38,7 @@ function DropDownListItem(props) {
 }
 
 function InputContainer(props) {
-  const { handleSubmit } = useContext(MyContext)
+  const { handleSubmit } = useContext(MyContext);
 
   useEffect(() => {
     const handleKeydown = (event) => {
