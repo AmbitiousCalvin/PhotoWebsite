@@ -1,0 +1,128 @@
+body:has(.preview-page) {
+  overflow: hidden;
+  padding-right: 1.2rem;
+}
+
+.preview-page {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.5); /* Light background for contrast */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow-y: scroll;
+  z-index: 3000;
+}
+
+/* Preview Container */
+.preview-container {
+  width: 90%;
+  max-width: 1200px;
+  height: 85%;
+  background: white;
+  box-shadow: var(--box-shadow);
+  border-radius: 0.8rem;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem; /* Adjusted padding */
+}
+
+/* Preview Header */
+.preview-header {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 1.5rem; /* Adjusted padding */
+  border-bottom: 1px solid #e0e0e0;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* User Container */
+/* User container styling */
+.user-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-family: Arial, sans-serif;
+}
+
+/* Avatar image styling */
+.user-avatar {
+  width: 5rem;
+  height: 5rem;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* Username styling */
+.user-name {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 0;
+  text-align: left;
+}
+
+/* Links container styling */
+.links {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Individual link styling */
+.link {
+  font-size: 1.5rem;
+  text-decoration: none;
+  color: var(--color-opacity);
+  transition: all 0.15s;
+}
+
+.link:hover {
+  color: var(--color-white-hover);
+}
+
+/* Circle point styling */
+.circle {
+  font-size: 2rem;
+  color: #333;
+}
+
+/* Icon Container */
+.icon-container {
+  display: flex;
+  gap: 1.5rem; /* Adjusted gap */
+}
+
+.icon {
+  font-size: 2rem; /* Adjusted size */
+  cursor: pointer;
+  color: #666;
+  transition: color 0.3s ease;
+}
+
+.icon:hover {
+  color: #007bff;
+}
+
+/* Image Slider */
+.img-slider {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f9f9f9;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 2rem; /* Adjusted padding */
+}
+
+/* More Info Section */
+.more-info {
+  padding: 2rem; /* Adjusted padding */
+  font-size: 1.6rem; /* Adjusted for base font-size */
+  color: #555;
+  overflow-y: auto;
+}

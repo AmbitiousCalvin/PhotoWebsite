@@ -110,6 +110,11 @@ i {
   gap: 1.5rem;
 }
 
+.flex-column{
+  dipplay: flex;
+  flex-direction: column;
+}
+
 .btn,
 .icon {
   padding: 1rem 1.5rem;

@@ -2,17 +2,31 @@ import "./styles/styles.css";
 import "./styles/loading.css";
 import "./styles/error.css";
 
-import { Homepage } from "./pages/Homepage.js";
-import { Preview } from "./pages/Preview";
-import { Videopage } from "./pages/Videopage";
-import { NotFoundpage } from "./pages/NotFound";
 import { Header } from "./components/header";
 import { InitialLoading } from "./components/loading";
 import { ScrollToTopButton } from "./components/ScrollToTopBtn";
 import ScrollToTop from "./components/ScrollToTop";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { createContext, useState, useMemo, useEffect } from "react";
+import { lazy, Suspense } from "react";
+
 export const MyContext = createContext(null);
+
+// Lazy load the pages
+const Homepage = lazy(() =>
+  import("./pages/Homepage").then((module) => ({ default: module.Homepage }))
+);
+const Preview = lazy(() =>
+  import("./pages/Preview").then((module) => ({ default: module.Preview }))
+);
+const Videopage = lazy(() =>
+  import("./pages/Videopage").then((module) => ({ default: module.Videopage }))
+);
+const NotFoundpage = lazy(() =>
+  import("./pages/NotFound").then((module) => ({
+    default: module.NotFoundpage,
+  }))
+);
 
 const popularPhotoQueries = [
   "nature",
@@ -75,21 +89,21 @@ export default function App() {
   );
 
   return (
-    <>
-      <MyContext.Provider value={contextValue}>
-        {<ScrollToTopButton />}
-        {isLoading && <InitialLoading />}
-        <ScrollToTop />
-        <Header />
+    <MyContext.Provider value={contextValue}>
+      {<ScrollToTopButton />}
+      {isLoading && <InitialLoading />}
+      <ScrollToTop />
+      <Header />
 
+      <Suspense fallback={<InitialLoading />}>
         <Routes>
-          {/* <Route path="/" element={<Homepage />} /> */}
+          <Route path="/" element={<Homepage />} />
           <Route path="/photos" element={<Homepage />} />
           <Route path="/video" element={<Videopage />} />
           <Route path="/preview" element={<Preview />} />
-          <Route path="/" element={<NotFoundpage />} />
+          <Route path="*" element={<NotFoundpage />} />
         </Routes>
-      </MyContext.Provider>
-    </>
+      </Suspense>
+    </MyContext.Provider>
   );
 }
