@@ -6,17 +6,36 @@ A simple photo app built with **React** and styled with **plain CSS**. Api usage
 
 Just to really learn React. Still a beginner but will get there eventually ;)
 
+## Project Outcome
+
+- I know how to use React Router, useMemo, useLocation basically.
+
 ## Features ✨
 
 - Search for pics by keyword
 - Browse high-quality stock photos
 - Responsive design
 - Dark/Light theme
-- KeyBoard Shortcuts (Ctrl + K for SearchBar and Ctrl + X for clearing SearchBar Input)
+- Keyboard Shortcuts (Ctrl + K for SearchBar and Ctrl + X for clearing SearchBar Input)
+
+   ### Newly Added Features
+
+   -  **Image/VideoType Slider** to choose what kind of images/videos you want to see 
+   - **Loading Screen Animation** for a polished user experience  
+   - **Dedicated Video Page** for exploring video content effortlessly
+    
+   ### Coming soon Features
+
+   - **Images & Videos Slider** to display/play Images & Videos
+   - **Dedicated Login & Sign up Page**
+ 
+---------------------------------------------------------------------
 
 ## Demo 🎬
 
 Check it out here (CodeSandBox): [https://7n7f66.csb.app]
+
+---------------------------------------------------------------------
 
 ## Tech Stack 🚀
 
@@ -24,6 +43,8 @@ Check it out here (CodeSandBox): [https://7n7f66.csb.app]
 - **Typescript** haven't learned it yet (Auto coompleted by Codesandbox)
 - **Plain CSS** for styling
 - **Pixabay API** for fetching photos
+
+- ---------------------------------------------------------------------
 
 ## Setup 🛠️
 
