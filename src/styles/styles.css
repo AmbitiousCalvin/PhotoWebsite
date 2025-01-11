@@ -166,7 +166,7 @@ i {
   transform-origin: top;
   transform: scale(0.75);
   transition: all 0.15s ease;
-  z-index: 1000;
+  z-index: 5000;
 }
 
 .dropdown-item:hover .dropdown-list,
