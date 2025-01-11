@@ -12,9 +12,6 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { createContext, useState, useMemo, useEffect } from "react";
 export const MyContext = createContext(null);
 
-const apiKey = "47893918-d8d9d596b7cdac04fed7aca68";
-const apiUrl = "https://pixabay.com/api/";
-
 const popularPhotoQueries = [
   "nature",
   "landscape",

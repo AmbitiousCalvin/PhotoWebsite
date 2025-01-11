@@ -4,13 +4,13 @@
   top: calc(100% + 1rem);
 }
 
-.title-container .dropdown-item{
-  min-width: 77px;
+.main-content-container .dropdown-item::after{
+  z-index: 1;
+  background: transparent;
 }
 
-.title-container .dropdown-item:hover .dropdown-list{
-  opacity: 0;
-  visibility: hidden;
+.title-container .dropdown-item{
+  min-width: 77px;
 }
 
 #checkbox:checked + label .dropdown-list {
