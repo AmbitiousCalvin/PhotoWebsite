@@ -6,15 +6,10 @@ import { Homepage } from "./Homepage";
 import { Videopage } from "./Videopage";
 import { Header } from "./components/header";
 import { InitialLoading } from "./components/loading";
+import { ScrollToTopButton } from "./components/ScrollToTopBtn";
 import ScrollToTop from "./components/ScrollToTop";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import {
-  createContext,
-  useState,
-  SetStateAction,
-  useMemo,
-  useEffect,
-} from "react";
+import { createContext, useState, useMemo, useEffect } from "react";
 export const MyContext = createContext(null);
 
 const apiKey = "47893918-d8d9d596b7cdac04fed7aca68";
@@ -83,6 +78,7 @@ export default function App() {
   return (
     <>
       <MyContext.Provider value={contextValue}>
+        {<ScrollToTopButton />}
         {isLoading && <InitialLoading />}
         <ScrollToTop />
         <Header />

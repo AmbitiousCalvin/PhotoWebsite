@@ -57,6 +57,7 @@ main {
   overflow: clip;
   transition: all 0.2s;
   cursor: zoom-in;
+  aspect-ratio: 1;
   background-color: transparent;
 }
 

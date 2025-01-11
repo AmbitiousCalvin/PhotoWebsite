@@ -161,6 +161,12 @@ body:has(.header-right-section.showMenu) {
   padding-right: 1.2rem;
 }
 
+.explore-btn:hover .dropdown-list,
+.explore-btn.hovering .dropdown-list {
+  opacity: 1;
+  visibility: visible;
+}
+
 .header-right-section.showMenu .sidebar-menu-container,
 .sidebar-menu-container.showMenu {
   transition: transform 0.75s;
