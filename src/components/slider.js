@@ -1,6 +1,6 @@
 import { Icon } from "./general";
 import "../styles/slider.css";
-import { useContext, useState, useEffect, useRef, memo } from "react";
+import { useContext, useState, useEffect, useRef } from "react";
 import { MyContext } from "../App";
 
 function Slider(props) {
@@ -99,7 +99,4 @@ function Slider(props) {
     </div>
   );
 }
-
-const memoizedSlider = memo(Slider);
-
-export { memoizedSlider as Slider };
+export { Slider };
