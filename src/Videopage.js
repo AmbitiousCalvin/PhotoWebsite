@@ -8,7 +8,7 @@ import {
   useCallback,
   SetStateAction,
   useContext,
-  memo
+  memo,
 } from "react";
 
 function Videopage() {
@@ -67,10 +67,10 @@ function Videopage() {
       const lastItem = document.querySelector(".grid-item:last-child");
 
       if (lastItem) {
-        console.log(lastItem)
+        console.log(lastItem);
         observer.observe(lastItem);
       }
-    }, 750)
+    }, 750);
 
     return () => {
       const observer = new IntersectionObserver(observerCallback, options);
@@ -85,7 +85,7 @@ function Videopage() {
         setError(false);
         setLoading(true);
         const response = await fetch(
-          `${apiUrl}?key=${apiKey}&q=${query}&order=${order}&image_type=${videoType}&page=${page}&per_page=15`
+          `${apiUrl}?key=${apiKey}&q=${query}&order=${order}&image_type=${videoType}&page=${page}&per_page=12`
         );
 
         if (response.ok) {
@@ -140,15 +140,11 @@ function Videopage() {
           { text: "Music" },
         ]}
       />
-      <MainContent
-        items={videos}
-        type={"video"}
-        loading={loading}
-      />
+      <MainContent items={videos} type={"video"} loading={loading} />
     </>
   );
 }
 
-const MemoizedVideopage = memo(Videopage)
+const MemoizedVideopage = memo(Videopage);
 
 export { MemoizedVideopage as Videopage };

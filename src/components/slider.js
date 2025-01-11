@@ -99,4 +99,5 @@ function Slider(props) {
     </div>
   );
 }
+
 export { Slider };

@@ -144,9 +144,10 @@ i {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 100%;
+  width: 105%;
   height: 150%;
-  z-index: -1;
+  z-index: 1;
+  background-color: transparent;
 }
 
 /* Styles for dropdown */
@@ -166,7 +167,7 @@ i {
   transform-origin: top;
   transform: scale(0.75);
   transition: all 0.15s ease;
-  z-index: 5000;
+  z-index: 1000;
 }
 
 .dropdown-item:hover .dropdown-list,
