@@ -8,7 +8,7 @@ Just to really learn React. Still a beginner but will get there eventually ;)
 
 ## Project Outcome
 
-- I know how to use React Router, useMemo, useLocation basically.
+- I now know some basic ways to use React Router, useMemo, useLocation and useNavigate.
 
 ## Features ✨
 
@@ -27,8 +27,7 @@ Just to really learn React. Still a beginner but will get there eventually ;)
    ### Coming soon Features
 
    - **Images & Videos Slider** to display/play Images & Videos
-   - **Dedicated Login & Sign up Page**
- 
+
 ---------------------------------------------------------------------
 
 ## Demo 🎬
