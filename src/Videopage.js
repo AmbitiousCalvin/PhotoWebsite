@@ -1,15 +1,8 @@
-import { MainContent } from "./main";
-import { MyContext } from "./App";
-import { Slider } from "./components/slider";
-import "./styles/slider.css";
-import {
-  useState,
-  useEffect,
-  useCallback,
-  SetStateAction,
-  useContext,
-  memo,
-} from "react";
+import { MainContent } from "../main";
+import { MyContext } from "../App";
+import { Slider } from "../components/slider";
+import "../styles/slider.css";
+import { useState, useEffect, useCallback, useContext, memo } from "react";
 
 function Videopage() {
   const { query, order } = useContext(MyContext);
