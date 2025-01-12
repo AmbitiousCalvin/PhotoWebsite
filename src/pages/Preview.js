@@ -118,7 +118,7 @@ import { useState, useEffect } from "react";
 // }
 
 function Preview() {
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 435);
   const username = "Username";
   const avatar = "user-avatar.jpg";
   const likeCount = 42;
@@ -137,7 +137,7 @@ function Preview() {
         <div className="preview-header">
           {isMobile ? (
             <>
-              <IconContainer likeCount={likeCount} />
+              <IconContainer likeCount={likeCount} hideText={true} />
             </>
           ) : (
             <>
@@ -173,14 +173,15 @@ function UserContainer({ username, avatar }) {
   );
 }
 
-function IconContainer({ likeCount }) {
+function IconContainer({ likeCount, hideText }) {
   return (
     <div className="icon-container">
       <div className="btn btn-border btn-square btn-border-hover">
         <Icon class="fa-regular fa-bookmark"></Icon>
       </div>
       <div className="btn btn-border btn-square btn-border-hover">
-        <Icon class="fa-regular fa-heart"></Icon> Like {likeCount}
+        <Icon class="fa-regular fa-heart"></Icon> {!hideText && "Like"}{" "}
+        {likeCount}
       </div>
       <div className="btn btn-square preview-download-btn">
         <div className="text-section">Download</div>

@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef, useContext } from "react";
 import { InputContainer, DropDown, DropDownListItem, Icon } from "./general";
 import { Link } from "react-router-dom";
+import { memo } from "react";
 import "../styles/header.css";
 import { MyContext } from "../App";
 
@@ -119,9 +120,7 @@ function Header() {
   }, []);
 
   const toggleSearchBar = () => setIsOpen((prev) => !prev);
-  const handleInputChange = (e) => {
-    setInput(e.target.value);
-  };
+  const handleInputChange = (e) => setInput(e.target.vaue);
   const clearInput = () => setInput("");
 
   return (
@@ -403,4 +402,5 @@ function Header() {
   );
 }
 
-export { Header };
+const memoizedHeader = memo(Header);
+export { memoizedHeader as Header };

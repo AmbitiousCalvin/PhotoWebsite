@@ -1,11 +1,4 @@
-import {
-  ReactElement,
-  JSXElementConstructor,
-  ReactNode,
-  ReactPortal,
-  useEffect,
-  useContext,
-} from "react";
+import { memo, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import { MyContext } from "../App";
 
@@ -97,4 +90,15 @@ function General() {
   );
 }
 
-export { InputContainer, DropDown, DropDownListItem, Icon };
+const MemoizedInputContainer = memo(InputContainer);
+const MemoizedDropDown = memo(DropDown);
+const MemoizedDropDownListItem = memo(DropDownListItem);
+const MemoizedIcon = memo(Icon);
+
+// Export all as memoized components
+export {
+  MemoizedInputContainer as InputContainer,
+  MemoizedDropDown as DropDown,
+  MemoizedDropDownListItem as DropDownListItem,
+  MemoizedIcon as Icon,
+};
