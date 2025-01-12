@@ -1,11 +1,4 @@
-import {
-  ReactElement,
-  JSXElementConstructor,
-  ReactNode,
-  ReactPortal,
-  useEffect,
-  useContext,
-} from "react";
+import { useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import { MyContext } from "../App";
 
@@ -72,7 +65,7 @@ function InputContainer(props) {
       <input
         ref={props.inputRef}
         value={props.input}
-        onChange={props.handleChange}
+        onChange={(e) => props.setInput(e.target.value)}
         id={props.id}
         className="input-field"
         type="text"
@@ -80,7 +73,7 @@ function InputContainer(props) {
       />
       {props.children}
 
-      {props.input.trim() && (
+      {(props.input || "").trim() && (
         <i onClick={props.clearChange} className="fa-solid fa-xmark" />
       )}
     </form>
@@ -97,4 +90,5 @@ function General() {
   );
 }
 
+// Export all as memoized components
 export { InputContainer, DropDown, DropDownListItem, Icon };

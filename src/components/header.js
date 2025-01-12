@@ -1,5 +1,10 @@
 import { useEffect, useState, useRef, useContext } from "react";
-import { InputContainer, DropDown, DropDownListItem, Icon } from "./general";
+import {
+  InputContainer,
+  DropDown,
+  DropDownListItem,
+  Icon,
+} from "../components/general";
 import { Link } from "react-router-dom";
 import "../styles/header.css";
 import { MyContext } from "../App";
@@ -119,9 +124,6 @@ function Header() {
   }, []);
 
   const toggleSearchBar = () => setIsOpen((prev) => !prev);
-  const handleInputChange = (e) => {
-    setInput(e.target.value);
-  };
   const clearInput = () => setInput("");
 
   return (
@@ -162,7 +164,6 @@ function Header() {
           input={input}
           setInput={setInput}
           clearChange={clearInput}
-          handleChange={handleInputChange}
           hasDropDown={false}
           id="search-bar"
         ></InputContainer>
@@ -193,34 +194,30 @@ function Header() {
                 icon: "fa-solid fa-globe",
                 text: "Discover Photos",
                 path: "/photos",
-
                 onClick: () => {
-                  const random = Math.floor(
-                    Math.random * popularPhotoQueries.length
+                  setOpenNav(false)
+                  const randomQuery = Math.floor(
+                    Math.random() * popularPhotoQueries.length
                   );
-                  setOpenNav(false);
-                  handleSubmit(popularPhotoQueries[random]);
+                  handleSubmit(popularPhotoQueries[randomQuery]);
                 },
               },
               {
                 icon: "fa-regular fa-circle-play",
                 text: "Free Videos",
-                isTitle: "true",
                 path: "/video",
                 onClick: () => {
-                  const random = Math.floor(
-                    Math.random * popularPhotoQueries.length
+                  setOpenNav(false)
+                  const randomQuery = Math.floor(
+                    Math.random() * popularPhotoQueries.length
                   );
-                  setOpenNav(false);
-                  handleSubmit(popularPhotoQueries[random]);
+                  handleSubmit(popularPhotoQueries[randomQuery]);
                 },
               },
               {
                 icon: "fa-solid fa-window-restore",
-                isTitle: "true",
                 text: "Soundscape Blog",
-                isTitle: "true",
-
+                title: "Work in progress",
                 onClick: () => {
                   alert(
                     "This would take you to the Blog Page but it's still work in progress"
@@ -233,17 +230,17 @@ function Header() {
                 isTitle: "true",
                 onClick: () => {
                   alert(
-                    "This would take you to the Blog Page but it's still work in progress"
+                    "This would take you to the Settings Page but it's still work in progress"
                   );
                 },
               },
             ].map((item, index) => (
               <Link
-                onClick={item.onClick}
-                to={item.path}
+                to={item.path && item.path}
                 title={item.isTitle && "Work in progress"}
                 key={index}
                 className="btn btn-square"
+                onClick={item.onClick}
               >
                 <Icon class={item.icon} />
                 {item.text}
@@ -301,7 +298,7 @@ function Header() {
 
           <div className="copyright-text">
             &copy; {new Date().getFullYear()} Soundscape All rights reserved.
-            Project Owwer: CalvinTaw
+            Project Owner: CalvinTaw
           </div>
         </div>
 
@@ -318,6 +315,7 @@ function Header() {
                     text: "Discover Photos",
                     path: "/photos",
                     onClick: () => {
+                      buttonRef.current?.classList.remove("hovering")
                       const randomQuery = Math.floor(
                         Math.random() * popularPhotoQueries.length
                       );
@@ -329,6 +327,7 @@ function Header() {
                     text: "Free Videos",
                     path: "/video",
                     onClick: () => {
+                      buttonRef.current?.classList.remove("hovering")
                       const randomQuery = Math.floor(
                         Math.random() * popularPhotoQueries.length
                       );

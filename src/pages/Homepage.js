@@ -1,6 +1,7 @@
 import { MainContent } from "../main";
-import { MyContext } from "../App";
+import { Icon } from "../components/general";
 import { Slider } from "../components/slider";
+import { MyContext } from "../App";
 import "../styles/slider.css";
 import { useState, useEffect, useCallback, useContext, memo } from "react";
 
@@ -36,8 +37,6 @@ function Homepage() {
 
   const observerCallback = useCallback(
     (entries, observer) => {
-      console.log("observer ", photos);
-
       for (let entry of entries) {
         if (entry.isIntersecting && !loading) {
           setPage((prevPage) => prevPage + 1);
@@ -60,7 +59,6 @@ function Homepage() {
       const lastItem = document.querySelector(".grid-item:last-child");
 
       if (lastItem) {
-        console.log(lastItem);
         observer.observe(lastItem);
       }
     }, 750);
@@ -83,13 +81,19 @@ function Homepage() {
 
         if (response.ok) {
           const data = await response.json();
-          setPhotos((prev) => {
-            const existingIds = new Set(prev.map((photo) => photo.id));
-            const uniquePhotos = data.hits.filter(
-              (photo) => !existingIds.has(photo.id)
-            );
-            return [...prev, ...uniquePhotos];
-          });
+          if (data.totalHits > 0) {
+            setPhotos((prev) => {
+              const existingIds = new Set(prev.map((photo) => photo.id));
+              const uniquePhotos = data.hits.filter(
+                (photo) => !existingIds.has(photo.id)
+              );
+              return [...prev, ...uniquePhotos];
+            });
+          } else {
+            setVideos([]);
+            setError(true);
+            throw new Error("no more photos");
+          }
         } else {
           throw new Error("Failed to fetch photos");
         }
@@ -135,7 +139,12 @@ function Homepage() {
           { text: "Current Events" },
         ]}
       />
-      <MainContent items={photos} type={"photo"} loading={loading} />
+      <MainContent
+        items={photos}
+        type={"photo"}
+        loading={loading}
+        error={error}
+      />
     </>
   );
 }

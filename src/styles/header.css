@@ -11,7 +11,7 @@ header {
   overflow-x: clip;
   background-color: var(--bg-color); /* Changed */
   z-index: 2000;
-  min-height: 70px;
+  min-height: 7rem;
 }
 
 nav ul {

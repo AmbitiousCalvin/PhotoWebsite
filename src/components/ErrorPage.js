@@ -1,5 +1,4 @@
 import errorImage from "../images/not-found.png"; // Import the image
-import notFoundContext from "../pages/NotFound";
 
 const ErrorComponent = (props) => {
   return (

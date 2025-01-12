@@ -36,8 +36,6 @@ function Videopage() {
 
   const observerCallback = useCallback(
     (entries, observer) => {
-      console.log("observer ", videos);
-
       for (let entry of entries) {
         if (entry.isIntersecting && !loading) {
           setPage((prevPage) => prevPage + 1);
@@ -60,7 +58,6 @@ function Videopage() {
       const lastItem = document.querySelector(".grid-item:last-child");
 
       if (lastItem) {
-        console.log(lastItem);
         observer.observe(lastItem);
       }
     }, 750);
@@ -83,13 +80,19 @@ function Videopage() {
 
         if (response.ok) {
           const data = await response.json();
-          setVideos((prev) => {
-            const existingIds = new Set(prev.map((photo) => photo.id));
-            const uniquevideos = data.hits.filter(
-              (photo) => !existingIds.has(photo.id)
-            );
-            return [...prev, ...uniquevideos];
-          });
+          if (data.totalHits > 0) {
+            setVideos((prev) => {
+              const existingIds = new Set(prev.map((video) => video.id));
+              const uniquevideos = data.hits.filter(
+                (video) => !existingIds.has(video.id)
+              );
+              return [...prev, ...uniquevideos];
+            });
+          } else {
+            setVideos([]);
+            setError(true);
+            throw new Error("no more videos");
+          }
         } else {
           throw new Error("Failed to fetch videos");
         }
@@ -133,7 +136,12 @@ function Videopage() {
           { text: "Music" },
         ]}
       />
-      <MainContent items={videos} type={"video"} loading={loading} />
+      <MainContent
+        items={videos}
+        type={"video"}
+        loading={loading}
+        error={error}
+      />
     </>
   );
 }
