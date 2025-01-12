@@ -9,19 +9,19 @@ import "./styles/video-main.css";
 import { MyContext } from "./App";
 
 function MainContent(props) {
-  const { query, handleSubmit, order } = useContext(MyContext);
+  const { query, handleSubmit } = useContext(MyContext);
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     if (!props.loading && props.items.length > 0) {
-      setLoaded(true); // Data has successfully loaded
+      setLoaded(true);
     }
   }, [props.loading, props.items]);
 
   return (
     <main>
       <section className="main-content-container">
-        {props.error !== "not-found" && (
+        {!props.error && (
           <div className="title-container">
             <h2>Free Stock {props.type === "photo" ? "Photos" : "Videos"}</h2>
             <DropdownSelect
@@ -35,18 +35,12 @@ function MainContent(props) {
           </div>
         )}
 
-        {props.type === "photo" && props.items.length !== 0 && loaded && (
-          <PhotoItem photos={props.items} />
-        )}
-        {props.type === "video" && props.items.length !== 0 && loaded && (
-          <VideoItem videos={props.items} />
-        )}
+        {props.type === "photo" && loaded && <PhotoItem photos={props.items} />}
+        {props.type === "video" && loaded && <VideoItem videos={props.items} />}
         {props.loading && <Loading />}
 
-        {!props.loading && props.items.length === 0 && !loaded && (
+        {props.error && !props.loading && (
           <ErrorComponent
-            custom_class={props.custom_class}
-            html={props.children}
             image={props.image}
             message={
               props.message
