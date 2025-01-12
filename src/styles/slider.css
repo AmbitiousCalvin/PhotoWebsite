@@ -11,14 +11,14 @@
 }
 
 /* Left and Right buttons */
-.slider-container .icon {
+.slider-button {
   position: absolute;
   background-color: var(--color-opacity);
   cursor: pointer;
   z-index: 1000;
 }
 
-.slider-container .icon:hover {
+.slider-button:hover {
   background-color: var(--color-opacity-hover);
 }
 

@@ -30,14 +30,14 @@ function Slider(props) {
   const scrollLeft = () => {
     const slider = sliderRef.current;
     if (!slider) return;
-    const scrollAmount = slider.clientWidth / 2;
+    const scrollAmount = slider.clientWidth / 1.25;
     slider.scrollBy({ left: -scrollAmount, behavior: "smooth" });
   };
 
   const scrollRight = () => {
     const slider = sliderRef.current;
     if (!slider) return;
-    const scrollAmount = slider.clientWidth / 2;
+    const scrollAmount = slider.clientWidth / 1.25;
     slider.scrollBy({ left: scrollAmount, behavior: "smooth" });
   };
 

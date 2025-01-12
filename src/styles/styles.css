@@ -110,6 +110,23 @@ i {
   gap: 1.5rem;
 }
 
+.display-flex {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
 .btn,
 .icon {
   padding: 1rem 1.5rem;
@@ -237,6 +254,10 @@ i {
 .btn-border {
   background-color: transparent;
   border: 1px solid var(--color-grey); /* Grey border */
+}
+
+.btn-border-hover:hover {
+  border: 1px solid var(--color-white);
 }
 
 .explore-btn:hover i {
