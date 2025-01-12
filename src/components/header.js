@@ -1,5 +1,10 @@
 import { useEffect, useState, useRef, useContext } from "react";
-import { InputContainer, DropDown, DropDownListItem, Icon } from "./general";
+import {
+  InputContainer,
+  DropDown,
+  DropDownListItem,
+  Icon,
+} from "../components/general";
 import { Link } from "react-router-dom";
 import "../styles/header.css";
 import { MyContext } from "../App";
