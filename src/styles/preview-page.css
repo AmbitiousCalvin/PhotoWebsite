@@ -1,13 +1,12 @@
-Header {
+body:has(.preview-page) header {
   border-bottom: 1px solid var(--color-grey);
-  background-color: red;
 }
 
-main {
+body:has(.preview-page) main {
   border-top: 0;
 }
 
-.slider-container {
+body:has(.preview-page) .slider-container {
   position: sticky;
   border-bottom: 1px solid var(--color-grey);
   box-shadow: var(--box-shadow);
