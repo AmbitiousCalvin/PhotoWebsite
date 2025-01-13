@@ -1,7 +1,20 @@
 import { Icon } from "./general";
-import { Preview } from "../pages/Preview";
+import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 
-function VideoItem({ videos }) {
+function VideoItem({ videos, data }) {
+  const navigate = useNavigate();
+
+  const { fetchPhotos, apiKey, apiUrl, query, order, imageType, page } = data;
+
+  console.log(fetchPhotos);
+  console.log(apiKey);
+  console.log(apiUrl);
+  console.log(query);
+  console.log(order);
+  console.log(imageType);
+  console.log(page);
+
   const calculateSpan = (videoHeight, videoWidth, rowHeight = 10) => {
     const aspectRatio = videoHeight / videoWidth;
     return Math.ceil(aspectRatio * rowHeight);
@@ -32,6 +45,29 @@ function VideoItem({ videos }) {
     gridItem.classList.remove("loading");
   }
 
+  function handleNavigate(
+    type,
+    username,
+    userImage,
+    alt,
+    src,
+    likes,
+    videoSrc
+  ) {
+    let newData = data;
+    let obj = {
+      type,
+      username,
+      userImage,
+      alt,
+      src,
+      likes,
+      videoSrc,
+      newData,
+    };
+    navigate("/preview", { state: obj });
+  }
+
   return (
     <div className="grid-container">
       {videos.map((video, index) => {
@@ -41,11 +77,17 @@ function VideoItem({ videos }) {
         );
         return (
           <div
-            onClick={() => {
-              alert(
-                "This would take you to the Video Playing Page but it's still work in progress"
-              );
-            }}
+            onClick={() =>
+              handleNavigate(
+                "video",
+                video.user,
+                video.userImageURL,
+                video.tags,
+                video.videos.tiny.thumbnail,
+                video.likes,
+                video.videos.tiny.url
+              )
+            }
             key={video.videos.tiny.thumbnail}
             className={`grid-item grid-item-${index} loading`}
             id={index}

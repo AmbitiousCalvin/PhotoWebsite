@@ -140,6 +140,7 @@ function Homepage() {
         ]}
       />
       <MainContent
+        data={{ apiKey, apiUrl, page }}
         items={photos}
         type={"photo"}
         loading={loading}

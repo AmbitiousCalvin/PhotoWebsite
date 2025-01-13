@@ -10,7 +10,7 @@ body:has(.preview-page) .slider-container {
   position: sticky;
   border-bottom: 1px solid var(--color-grey);
   box-shadow: var(--box-shadow);
-  top: 13vh;
+  top: 6.75rem;
 }
 
 .preview-page {
@@ -27,7 +27,7 @@ body:has(.preview-page) .slider-container {
 .preview-container {
   position: relative;
   width: 100%;
-  max-width: 900px;
+  max-width: 90rem;
   background: var(--bg-color);
   border-radius: 0.8rem;
   display: flex;
@@ -117,7 +117,7 @@ body:has(.preview-page) .slider-container {
 }
 
 .img-slider {
-  min-height: 400px;
+  min-height: 40rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -125,13 +125,13 @@ body:has(.preview-page) .slider-container {
   background-color: var(--hover-color);
 }
 
-.img-slider img {
-  width: 80%;
+.img-slider img,
+.img-slider video {
   border-radius: 1rem;
-  max-width: 500px;
-  height: 100%;
-  max-height: 500px;
+  max-width: 85%;
+  max-height: 85%;
   object-fit: cover;
+  aspect-ratio: 16 / 9;
 }
 
 .more-info-container {

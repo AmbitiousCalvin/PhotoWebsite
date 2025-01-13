@@ -137,6 +137,7 @@ function Videopage() {
         ]}
       />
       <MainContent
+        data={{ fetchPhotos, apiKey, apiUrl, query, order, videoType, page }}
         items={videos}
         type={"video"}
         loading={loading}

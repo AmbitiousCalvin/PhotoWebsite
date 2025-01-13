@@ -16,23 +16,28 @@ function Preview() {
   const { handleSubmit, query, order } = useContext(MyContext);
 
   const location = useLocation();
-  const { username, userImage, src, alt, likes } = location.state || {};
+  const {
+    type,
+    username,
+    userImage,
+    alt,
+    src,
+    likes,
+    videoSrc,
+    data = {},
+  } = location.state || {};
+
+  const { apiKey, apiUrl, prevPage } = data;
 
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 435);
   const likeCount = likes;
 
-  const [imageType, setImageType] = useState("all");
-
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(prevPage);
   const [photos, setPhotos] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [prevQuery, setPrevQuery] = useState(query);
   const [prevOrder, setPrevOrder] = useState(order);
-  const [prevType, setPrevType] = useState(imageType);
-
-  const apiKey = "47893918-d8d9d596b7cdac04fed7aca68";
-  const apiUrl = "https://pixabay.com/api/";
 
   useEffect(() => {
     if (query !== prevQuery) {
@@ -42,10 +47,6 @@ function Preview() {
     if (order !== prevOrder) {
       setPhotos([]);
       setPrevOrder(order);
-    }
-    if (imageType !== prevType) {
-      setPhotos([]);
-      setPrevType(imageType);
     }
   });
 
@@ -90,18 +91,18 @@ function Preview() {
         setError(false);
         setLoading(true);
         const response = await fetch(
-          `${apiUrl}?key=${apiKey}&q=${query}&order=${order}&image_type=${imageType}&page=${page}&per_page=15`
+          `${apiUrl}?key=${apiKey}&q=${query}&order=${order}&page=${page}&per_page=15`
         );
 
         if (response.ok) {
           const data = await response.json();
           if (data.totalHits > 0) {
             setPhotos((prev) => {
-              const existingIds = new Set(prev.map((photo) => photo.id));
-              const uniquePhotos = data.hits.filter(
-                (photo) => !existingIds.has(photo.id)
+              const existingIds = new Set(prev.map((Items) => Items.id));
+              const uniqueItemss = data.hits.filter(
+                (Items) => !existingIds.has(Items.id)
               );
-              return [...prev, ...uniquePhotos];
+              return [...prev, ...uniqueItemss];
             });
           } else {
             setVideos([]);
@@ -122,7 +123,7 @@ function Preview() {
     };
 
     fetchPhotos(query, page);
-  }, [page, query, imageType, order]);
+  }, [page, query, order]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -152,7 +153,7 @@ function Preview() {
             </>
           )}
         </div>
-        <ImgSlider alt={alt} src={imageSrc} />
+        <ImgSlider alt={alt} src={imageSrc} type={type} videoSrc={videoSrc} />
         {isMobile && (
           <div className="flex-row">
             <UserContainer avatar={avatarImage}>
@@ -255,13 +256,16 @@ function IconContainer(props) {
 function ImgSlider(props) {
   return (
     <div className={`img-slider`}>
-      <button className="icon slider-button left">
+      {/* <button className="icon slider-button left">
         <Icon class="fa-solid fa-chevron-left" />
-      </button>
+      </button> */}
+      {props.videoSrc && (
+        <video className="video-element" controls src={props.videoSrc}></video>
+      )}
       {props.src && <img alt={props.alt} src={props.src} />}
-      <button className="icon slider-button right">
+      {/* <button className="icon slider-button right">
         <Icon class="fa-solid fa-chevron-right" />
-      </button>
+      </button> */}
     </div>
   );
 }

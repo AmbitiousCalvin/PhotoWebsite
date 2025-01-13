@@ -1,9 +1,13 @@
 import { Icon } from "./general";
-import { Preview } from "../pages/Preview";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-function PhotoItem({ photos }) {
+function PhotoItem({ photos, data }) {
+  // const { apiKey, apiUrl, page } = data;
+
+  // console.log(apiKey);
+  // console.log(apiUrl);
+  // console.log(page);
+
   const navigate = useNavigate();
 
   const calculateSpan = (photoHeight, photoWidth, rowHeight = 10) => {
@@ -36,9 +40,26 @@ function PhotoItem({ photos }) {
     gridItem.classList.remove("loading");
   }
 
-  function handleNavigate(username, userImage, alt, src, likes) {
-    let data = { username, userImage, alt, src, likes };
-    navigate("/preview", { state: data });
+  function handleNavigate(
+    type,
+    username,
+    userImage,
+    alt,
+    src,
+    likes,
+    videoSrc
+  ) {
+    let obj = {
+      type,
+      username,
+      userImage,
+      alt,
+      src,
+      likes,
+      videoSrc,
+      data: data,
+    };
+    navigate("/preview", { state: obj });
   }
 
   return (
@@ -52,11 +73,13 @@ function PhotoItem({ photos }) {
           <div
             onClick={() =>
               handleNavigate(
+                "photo",
                 photo.user,
                 photo.userImageURL,
                 photo.tags,
                 photo.webformatURL,
-                photo.likes
+                photo.likes,
+                false
               )
             }
             key={photo.webformatURL}

@@ -35,8 +35,12 @@ function MainContent(props) {
           </div>
         )}
 
-        {props.type === "photo" && loaded && <PhotoItem photos={props.items} />}
-        {props.type === "video" && loaded && <VideoItem videos={props.items} />}
+        {props.type === "photo" && loaded && (
+          <PhotoItem photos={props.items} data={props.data} />
+        )}
+        {props.type === "video" && loaded && (
+          <VideoItem videos={props.items} data={props.data} />
+        )}
         {props.loading && <Loading />}
 
         {props.error && !props.loading && (
