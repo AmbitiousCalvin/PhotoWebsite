@@ -1,7 +1,14 @@
 import { Icon } from "./general";
-import { Preview } from "../pages/Preview";
+import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 
-function VideoItem({ videos }) {
+function VideoItem({ videos, data }) {
+  const navigate = useNavigate();
+
+  for (let video of videos) {
+    video.tags = video.tags.split(",").splice(0, 3).join(", ");
+  }
+
   const calculateSpan = (videoHeight, videoWidth, rowHeight = 10) => {
     const aspectRatio = videoHeight / videoWidth;
     return Math.ceil(aspectRatio * rowHeight);
@@ -32,6 +39,30 @@ function VideoItem({ videos }) {
     gridItem.classList.remove("loading");
   }
 
+  function handleNavigate(
+    type,
+    username,
+    userImage,
+    alt,
+    src,
+    likes,
+    videoSrc,
+    index
+  ) {
+    let obj = {
+      type,
+      username,
+      userImage,
+      alt,
+      src,
+      likes,
+      videoSrc,
+      data,
+      index,
+    };
+    navigate("/preview", { state: obj });
+  }
+
   return (
     <div className="grid-container">
       {videos.map((video, index) => {
@@ -41,11 +72,18 @@ function VideoItem({ videos }) {
         );
         return (
           <div
-            onClick={() => {
-              alert(
-                "This would take you to the Video Playing Page but it's still work in progress"
-              );
-            }}
+            onClick={() =>
+              handleNavigate(
+                "video",
+                video.user,
+                video.userImageURL,
+                video.tags,
+                "",
+                video.likes,
+                video.videos.large.url,
+                index
+              )
+            }
             key={video.videos.tiny.thumbnail}
             className={`grid-item grid-item-${index} loading`}
             id={index}

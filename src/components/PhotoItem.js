@@ -1,10 +1,12 @@
 import { Icon } from "./general";
-import { Preview } from "../pages/Preview";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-function PhotoItem({ photos }) {
+function PhotoItem({ photos, data }) {
   const navigate = useNavigate();
+
+  for (let photo of photos) {
+    photo.tags = photo.tags.split(",").splice(0, 3).join(", ");
+  }
 
   const calculateSpan = (photoHeight, photoWidth, rowHeight = 10) => {
     const aspectRatio = photoHeight / photoWidth;
@@ -36,9 +38,28 @@ function PhotoItem({ photos }) {
     gridItem.classList.remove("loading");
   }
 
-  function handleNavigate(username, userImage, alt, src, likes) {
-    let data = { username, userImage, alt, src, likes };
-    navigate("/preview", { state: data });
+  function handleNavigate(
+    type,
+    username,
+    userImage,
+    alt,
+    src,
+    likes,
+    videoSrc,
+    index
+  ) {
+    let obj = {
+      type,
+      username,
+      userImage,
+      alt,
+      src,
+      likes,
+      videoSrc,
+      data,
+      index,
+    };
+    navigate("/preview", { state: obj });
   }
 
   return (
@@ -52,11 +73,14 @@ function PhotoItem({ photos }) {
           <div
             onClick={() =>
               handleNavigate(
+                "photo",
                 photo.user,
                 photo.userImageURL,
                 photo.tags,
                 photo.webformatURL,
-                photo.likes
+                photo.likes,
+                false,
+                index
               )
             }
             key={photo.webformatURL}

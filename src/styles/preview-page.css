@@ -10,7 +10,7 @@ body:has(.preview-page) .slider-container {
   position: sticky;
   border-bottom: 1px solid var(--color-grey);
   box-shadow: var(--box-shadow);
-  top: 13vh;
+  top: 6.75rem;
 }
 
 .preview-page {
@@ -27,7 +27,7 @@ body:has(.preview-page) .slider-container {
 .preview-container {
   position: relative;
   width: 100%;
-  max-width: 900px;
+  max-width: 90rem;
   background: var(--bg-color);
   border-radius: 0.8rem;
   display: flex;
@@ -71,8 +71,7 @@ body:has(.preview-page) .slider-container {
 
 /* Username styling */
 .user-name {
-  font-size: 1.65rem;
-  font-weight: bold;
+  font-size: 1.4rem;
   margin: 0;
   text-align: left;
 }
@@ -117,21 +116,23 @@ body:has(.preview-page) .slider-container {
 }
 
 .img-slider {
-  min-height: 400px;
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  min-height: 45rem;
   border-radius: 1rem;
   background-color: var(--hover-color);
 }
 
-.img-slider img {
-  width: 80%;
+.img-slider img,
+.img-slider video {
   border-radius: 1rem;
-  max-width: 500px;
-  height: 100%;
-  max-height: 500px;
+  max-height: 50rem;
   object-fit: cover;
+}
+
+.img-slider video {
+  aspect-ratio: 16 / 9;
 }
 
 .more-info-container {
@@ -209,10 +210,9 @@ body:has(.preview-page) .slider-container {
   font-size: 1.5rem;
   font-weight: 500;
   color: var(--color-white);
-  opacity: 0.8;
+  opacity: 0.75;
   padding: 0.5rem 1rem;
   border-radius: 0.5rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   cursor: pointer;
 }
 

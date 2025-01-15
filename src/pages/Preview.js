@@ -1,6 +1,8 @@
 import { MainContent } from "../main";
 import defaultUserProfile from "../images/user.png";
 import { Slider } from "../components/slider";
+import { InitialLoading } from "../components/loading";
+
 import {
   InputContainer,
   DropDown,
@@ -11,61 +13,75 @@ import { useState, useEffect, useContext, useCallback } from "react";
 import { useLocation } from "react-router-dom";
 import "../styles/preview-page.css";
 import { MyContext } from "../App";
+import { PhotoItem } from "../components/PhotoItem";
 
 function Preview() {
   const { handleSubmit, query, order } = useContext(MyContext);
+  const [isLoading, setIsLoading] = useState(false);
 
   const location = useLocation();
-  const { username, userImage, src, alt, likes } = location.state || {};
+  const {
+    type,
+    username,
+    userImage,
+    alt,
+    src,
+    likes,
+    videoSrc,
+    data = {},
+    index,
+  } = location.state || {};
+
+  const apiKey = "47893918-d8d9d596b7cdac04fed7aca68";
+  let apiUrl =
+    type === "photo"
+      ? `https://pixabay.com/api/`
+      : "https://pixabay.com/api/videos/";
 
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 435);
   const likeCount = likes;
 
-  const [imageType, setImageType] = useState("all");
-
-  const [page, setPage] = useState(1);
-  const [photos, setPhotos] = useState([]);
+  const [newPage, setNewPage] = useState(1);
+  const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [prevQuery, setPrevQuery] = useState(query);
-  const [prevOrder, setPrevOrder] = useState(order);
-  const [prevType, setPrevType] = useState(imageType);
-
-  const apiKey = "47893918-d8d9d596b7cdac04fed7aca68";
-  const apiUrl = "https://pixabay.com/api/";
 
   useEffect(() => {
-    if (query !== prevQuery) {
-      setPhotos([]);
-      setPrevQuery(query);
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 750);
+
+    return () => clearTimeout(timer);
+  }, [isLoading]);
+
+  useEffect(() => {
+    if (index !== undefined) {
+      setIsLoading(true);
+      setItems((prevItems) => {
+        const newArr = prevItems.slice(index + 1);
+        return newArr;
+      });
     }
-    if (order !== prevOrder) {
-      setPhotos([]);
-      setPrevOrder(order);
-    }
-    if (imageType !== prevType) {
-      setPhotos([]);
-      setPrevType(imageType);
-    }
-  });
+  }, [index]);
 
   const observerCallback = useCallback(
     (entries, observer) => {
       for (let entry of entries) {
         if (entry.isIntersecting && !loading) {
-          setPage((prevPage) => prevPage + 1);
+          console.log("page", newPage);
+          setNewPage((prev) => prev + 1);
           observer.unobserve(entry.target);
         }
       }
     },
-    [photos, loading, page, query]
+    [items, loading, newPage, query]
   );
 
   useEffect(() => {
     const options = {
       root: null,
-      rootMargin: "0px",
-      threshold: 0.5,
+      rootMargin: "200px",
+      threshold: 0,
     };
 
     setTimeout(() => {
@@ -82,34 +98,36 @@ function Preview() {
       const lastItem = document.querySelector(".grid-item:last-child");
       if (lastItem) observer.unobserve(lastItem);
     };
-  }, [photos, query, page, observerCallback]);
+  }, [items, query, newPage, observerCallback]);
 
   useEffect(() => {
-    const fetchPhotos = async (query, page) => {
+    const fetchPhotos = async (query, newPage) => {
       try {
         setError(false);
         setLoading(true);
         const response = await fetch(
-          `${apiUrl}?key=${apiKey}&q=${query}&order=${order}&image_type=${imageType}&page=${page}&per_page=15`
+          `${apiUrl}?key=${apiKey}&q=${query}&order=${order}&page=${newPage}&per_page=15`
         );
 
         if (response.ok) {
           const data = await response.json();
+          console.log("inside fetch, data= ", data);
+
           if (data.totalHits > 0) {
-            setPhotos((prev) => {
-              const existingIds = new Set(prev.map((photo) => photo.id));
-              const uniquePhotos = data.hits.filter(
-                (photo) => !existingIds.has(photo.id)
-              );
-              return [...prev, ...uniquePhotos];
+            setItems((prev) => {
+              const existingIds = new Set(prev.map((Items) => Items.id));
+              const uniqueItemss = data.hits
+                .filter((Items) => !existingIds.has(Items.id))
+                .slice(index + 1);
+              return [...prev, ...uniqueItemss];
             });
           } else {
-            setVideos([]);
+            setItems([]);
             setError(true);
-            throw new Error("no more photos");
+            throw new Error(`no more ${type}s`);
           }
         } else {
-          throw new Error("Failed to fetch photos");
+          throw new Error(`Failed to fetch ${type}`);
         }
       } catch (error) {
         console.log(error.message);
@@ -121,8 +139,8 @@ function Preview() {
       }
     };
 
-    fetchPhotos(query, page);
-  }, [page, query, imageType, order]);
+    fetchPhotos(query, newPage);
+  }, [newPage, query, order]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -136,85 +154,95 @@ function Preview() {
   const imageSrc = src;
 
   return (
-    <div className="preview-page">
-      <div className="preview-container">
-        <div className="preview-header">
-          {isMobile ? (
-            <>
-              <IconContainer likeCount={likeCount} hideText={true} />
-            </>
-          ) : (
-            <>
-              <UserContainer avatar={avatarImage}>
-                <UserDetails username={username}></UserDetails>
-              </UserContainer>
-              <IconContainer likeCount={likeCount} />
-            </>
-          )}
-        </div>
-        <ImgSlider alt={alt} src={imageSrc} />
-        {isMobile && (
-          <div className="flex-row">
-            <UserContainer avatar={avatarImage}>
-              <p className="user-name">{username}</p>{" "}
-            </UserContainer>
-            <div className="btn btn-square btn-white">Follow</div>
-          </div>
-        )}
-        <div className="flex-row more-info-container">
-          <div className="flex-column">
-            <div className="flex-row display-flex more-info-text">
-              <Icon class="fa-regular fa-circle-check" />
-              Free to use
-            </div>
-            <div className="flex-row display-flex more-info-text">
-              Credit: Pixabay API.
-            </div>
-          </div>
-          <div className="flex-row " style={{ gap: "1rem" }}>
-            <IconButton iconClass="fa-solid fa-circle-info" text="More Info" />
-            <IconButton
-              iconClass="fa-regular fa-share-from-square"
-              text="Share"
-            />
-          </div>
-        </div>
-      </div>
+    <>
+      {isLoading && <InitialLoading />}
 
-      <Slider
-        slider_items={[
-          { text: "Photos" },
-          { text: "Illustrations" },
-          { text: "Vector" },
-          { text: "Wallpapers" },
-          { text: "Nature" },
-          { text: "3D Renders" },
-          {
-            text: "Architecture & Interiors",
-          },
-          { text: "Film" },
-          { text: "Experimental" },
-          { text: "Fashion & Beauty" },
-          { text: "People" },
-          { text: "Food & Drink" },
-          { text: "Archival" },
-          { text: "Animals" },
-          { text: "Textures & Patterns" },
-          { text: "Health & Wellness" },
-          { text: "Spirituality" },
-          { text: "Sports" },
-          { text: "Street Photography" },
-          { text: "Business & Work" },
-          { text: "Current Events" },
-        ]}
-      />
-      <MainContent
-        items={photos}
-        type={"photo"}
-        loading={loading}
-        error={error}
-      />
-    </div>
+      <div className="preview-page">
+        <div className="preview-container">
+          <div className="preview-header">
+            {isMobile ? (
+              <>
+                <IconContainer likeCount={likeCount} hideText={true} />
+              </>
+            ) : (
+              <>
+                <UserContainer avatar={avatarImage}>
+                  <UserDetails username={username}></UserDetails>
+                </UserContainer>
+                <IconContainer likeCount={likeCount} />
+              </>
+            )}
+          </div>
+          <ImgSlider alt={alt} src={imageSrc} type={type} videoSrc={videoSrc} />
+          {isMobile && (
+            <div className="flex-row">
+              <UserContainer avatar={avatarImage}>
+                <p className="user-name">{username}</p>{" "}
+              </UserContainer>
+              <div className="btn btn-square btn-white">Follow</div>
+            </div>
+          )}
+          <div className="flex-row more-info-container">
+            <div className="flex-column">
+              <div className="flex-row display-flex more-info-text">
+                <Icon class="fa-regular fa-circle-check" />
+                Free to use
+              </div>
+              <div className="flex-row display-flex more-info-text">
+                Credit: Pixabay API.
+              </div>
+            </div>
+            <div className="flex-row " style={{ gap: "1rem" }}>
+              <IconButton
+                iconClass="fa-solid fa-circle-info"
+                text="More Info"
+              />
+              <IconButton
+                iconClass="fa-regular fa-share-from-square"
+                text="Share"
+              />
+            </div>
+          </div>
+        </div>
+
+        <Slider
+          slider_items={[
+            { text: `${type === "photo" ? "Photos" : "Videos"}` },
+            { text: "Nature" },
+            { text: "Travel" },
+            { text: "Adventure" },
+            { text: "Food" },
+            { text: "Music" },
+            { text: "Art" },
+            { text: "Love" },
+            { text: "Beauty" },
+            { text: "Sports" },
+            { text: "Fitness" },
+            { text: "Technology" },
+            { text: "Fashion" },
+            { text: "Animals" },
+            { text: "Architecture" },
+            { text: "Landscape" },
+            { text: "Nightlife" },
+            { text: "Events" },
+            { text: "Holidays" },
+            { text: "Lifestyle" },
+            { text: "Science" },
+            { text: "History" },
+            { text: "Family" },
+            { text: "Culture" },
+            { text: "People" },
+            { text: "Urban" },
+          ]}
+        />
+        <MainContent
+          items={items}
+          type={type}
+          loading={loading}
+          error={error}
+        />
+      </div>
+    </>
   );
 }
 
@@ -255,13 +283,21 @@ function IconContainer(props) {
 function ImgSlider(props) {
   return (
     <div className={`img-slider`}>
-      <button className="icon slider-button left">
+      {/* <button className="icon slider-button left">
         <Icon class="fa-solid fa-chevron-left" />
-      </button>
+      </button> */}
+      {props.videoSrc && (
+        <video
+          className="video-element"
+          autoplay
+          controls
+          src={props.videoSrc}
+        ></video>
+      )}
       {props.src && <img alt={props.alt} src={props.src} />}
-      <button className="icon slider-button right">
+      {/* <button className="icon slider-button right">
         <Icon class="fa-solid fa-chevron-right" />
-      </button>
+      </button> */}
     </div>
   );
 }

@@ -51,7 +51,7 @@ function Homepage() {
     const options = {
       root: null,
       rootMargin: "0px",
-      threshold: 0.5,
+      threshold: 0.15,
     };
 
     setTimeout(() => {
@@ -140,6 +140,7 @@ function Homepage() {
         ]}
       />
       <MainContent
+        data={{ apiKey, apiUrl, page }}
         items={photos}
         type={"photo"}
         loading={loading}
