@@ -2,13 +2,11 @@ import { Icon } from "./general";
 import { useNavigate } from "react-router-dom";
 
 function PhotoItem({ photos, data }) {
-  // const { apiKey, apiUrl, page } = data;
-
-  // console.log(apiKey);
-  // console.log(apiUrl);
-  // console.log(page);
-
   const navigate = useNavigate();
+
+  // for (let photo of photos) {
+  //   photo.tags = photo.tags.split(",").splice(0, 3).join(", ");
+  // }
 
   const calculateSpan = (photoHeight, photoWidth, rowHeight = 10) => {
     const aspectRatio = photoHeight / photoWidth;
@@ -47,7 +45,8 @@ function PhotoItem({ photos, data }) {
     alt,
     src,
     likes,
-    videoSrc
+    videoSrc,
+    index
   ) {
     let obj = {
       type,
@@ -57,7 +56,8 @@ function PhotoItem({ photos, data }) {
       src,
       likes,
       videoSrc,
-      data: data,
+      data,
+      index,
     };
     navigate("/preview", { state: obj });
   }
@@ -79,7 +79,8 @@ function PhotoItem({ photos, data }) {
                 photo.tags,
                 photo.webformatURL,
                 photo.likes,
-                false
+                false,
+                index
               )
             }
             key={photo.webformatURL}
@@ -149,7 +150,7 @@ function PhotoItem({ photos, data }) {
 
               <div className="photo-info">
                 <div className="photo-tags">
-                  <p>{photo.tags}</p>
+                  <p>{photo.tags.split(",").splice(0, 3).join(", ")}</p>
                 </div>
                 <div
                   className="download-btn"

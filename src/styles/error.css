@@ -13,6 +13,11 @@
   margin: 2rem auto;
 }
 
+.body:has(.not-found-container) .main-content-container{
+  box-shadow:  none;
+  border: none;
+}
+
 .not-found {
   background-color: #fff;
   border: none;

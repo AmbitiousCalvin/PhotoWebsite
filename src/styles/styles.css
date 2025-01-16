@@ -89,9 +89,9 @@ body {
   color: var(--color-white);
 }
 
-body:has(.loading-container) {
+/* body:has(.loading-container) {
   pointer-events: none;
-}
+} */
 
 html {
   font-size: 10px;

@@ -5,16 +5,6 @@ import { useNavigate } from "react-router-dom";
 function VideoItem({ videos, data }) {
   const navigate = useNavigate();
 
-  const { fetchPhotos, apiKey, apiUrl, query, order, imageType, page } = data;
-
-  console.log(fetchPhotos);
-  console.log(apiKey);
-  console.log(apiUrl);
-  console.log(query);
-  console.log(order);
-  console.log(imageType);
-  console.log(page);
-
   const calculateSpan = (videoHeight, videoWidth, rowHeight = 10) => {
     const aspectRatio = videoHeight / videoWidth;
     return Math.ceil(aspectRatio * rowHeight);
@@ -52,9 +42,9 @@ function VideoItem({ videos, data }) {
     alt,
     src,
     likes,
-    videoSrc
+    videoSrc,
+    index
   ) {
-    let newData = data;
     let obj = {
       type,
       username,
@@ -63,7 +53,8 @@ function VideoItem({ videos, data }) {
       src,
       likes,
       videoSrc,
-      newData,
+      data,
+      index,
     };
     navigate("/preview", { state: obj });
   }
@@ -83,9 +74,10 @@ function VideoItem({ videos, data }) {
                 video.user,
                 video.userImageURL,
                 video.tags,
-                video.videos.tiny.thumbnail,
+                "",
                 video.likes,
-                video.videos.tiny.url
+                video.videos.large.url,
+                index
               )
             }
             key={video.videos.tiny.thumbnail}
@@ -153,7 +145,7 @@ function VideoItem({ videos, data }) {
 
               <div className="photo-info">
                 <div className="photo-tags">
-                  <p>{video.tags}</p>
+                  <p>{video.tags.split(",").splice(0, 3).join(", ")}</p>
                 </div>
                 <div
                   className="download-btn"

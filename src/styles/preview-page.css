@@ -34,6 +34,8 @@ body:has(.preview-page) .slider-container {
   flex-direction: column;
   padding: 2rem 2rem 3rem;
   gap: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 /* Preview Header */
@@ -71,8 +73,7 @@ body:has(.preview-page) .slider-container {
 
 /* Username styling */
 .user-name {
-  font-size: 1.65rem;
-  font-weight: bold;
+  font-size: 1.4rem;
   margin: 0;
   text-align: left;
 }
@@ -117,10 +118,10 @@ body:has(.preview-page) .slider-container {
 }
 
 .img-slider {
-  min-height: 40rem;
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  min-height: 45rem;
   border-radius: 1rem;
   background-color: var(--hover-color);
 }
@@ -128,9 +129,11 @@ body:has(.preview-page) .slider-container {
 .img-slider img,
 .img-slider video {
   border-radius: 1rem;
-  max-width: 85%;
-  max-height: 85%;
+  max-height: 50rem;
   object-fit: cover;
+}
+
+.img-slider video {
   aspect-ratio: 16 / 9;
 }
 
@@ -209,13 +212,28 @@ body:has(.preview-page) .slider-container {
   font-size: 1.5rem;
   font-weight: 500;
   color: var(--color-white);
-  opacity: 0.8;
+  opacity: 0.75;
   padding: 0.5rem 1rem;
   border-radius: 0.5rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   cursor: pointer;
 }
 
 .more-info-text:hover {
   opacity: 1;
+}
+
+.tags-container {
+  gap: 0.5rem;
+}
+
+.tags-container h1 {
+  font-size: 2.4rem;
+  margin-right: 1rem;
+  font-weight: bold;
+}
+
+.tags-container .btn {
+  font-size: 1.45rem;
+  padding: 0.7rem 1rem;
+  border-radius: 0.3rem;
 }

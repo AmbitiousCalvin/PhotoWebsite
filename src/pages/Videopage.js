@@ -50,7 +50,7 @@ function Videopage() {
     const options = {
       root: null,
       rootMargin: "0px",
-      threshold: 0.5,
+      threshold: 0.15,
     };
 
     setTimeout(() => {
@@ -137,7 +137,7 @@ function Videopage() {
         ]}
       />
       <MainContent
-        data={{ fetchPhotos, apiKey, apiUrl, query, order, videoType, page }}
+        data={{ apiKey, apiUrl, page }}
         items={videos}
         type={"video"}
         loading={loading}
