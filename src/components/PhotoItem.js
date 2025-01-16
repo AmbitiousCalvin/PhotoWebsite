@@ -46,7 +46,8 @@ function PhotoItem({ photos, data }) {
     src,
     likes,
     videoSrc,
-    index
+    index,
+    photo
   ) {
     let obj = {
       type,
@@ -58,6 +59,7 @@ function PhotoItem({ photos, data }) {
       videoSrc,
       data,
       index,
+      item: photo,
     };
     navigate("/preview", { state: obj });
   }
@@ -80,7 +82,8 @@ function PhotoItem({ photos, data }) {
                 photo.webformatURL,
                 photo.likes,
                 false,
-                index
+                index,
+                photo
               )
             }
             key={photo.webformatURL}
@@ -154,7 +157,7 @@ function PhotoItem({ photos, data }) {
                 </div>
                 <div
                   className="download-btn"
-                  onClick={() => downloadImage(photo.webformatURL)}
+                  onClick={() => downloadImage(photo.fullHDURL)}
                 >
                   <Icon class={"fa-solid fa-download"} />
                   Download
