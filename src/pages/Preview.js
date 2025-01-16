@@ -4,7 +4,6 @@ import { Slider } from "../components/slider";
 import { InitialLoading } from "../components/loading";
 import { NotFoundpage } from "./NotFound";
 import ErrorComponent from "../components/ErrorPage";
-
 import {
   InputContainer,
   DropDown,
@@ -20,15 +19,8 @@ import { PhotoItem } from "../components/PhotoItem";
 function Preview() {
   const { handleSubmit, query, order } = useContext(MyContext);
 
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [isFalse, setIsFalse] = useState(false);
-
-  useEffect(() => {
-    setIsFalse(false);
-    if (!query || !handleSubmit || !order) {
-      setIsFalse(true);
-    }
-  }, []);
 
   const location = useLocation();
   const {
@@ -41,14 +33,15 @@ function Preview() {
     videoSrc,
     data = {},
     index,
+    item = {},
   } = location.state || {};
 
   const apiKey = "47893918-d8d9d596b7cdac04fed7aca68";
   let apiUrl;
 
-  if (type !== "video") {
+  if (type === "photo") {
     apiUrl = `https://pixabay.com/api/`;
-  } else {
+  } else if (type === "video") {
     apiUrl = `https://pixabay.com/api/videos/`;
   }
 
@@ -175,26 +168,35 @@ function Preview() {
   return (
     <>
       {isLoading && <InitialLoading />}
-      {true && (
+      {isFalse && (
         <NotFoundpage
           title={"No Image selected."}
           message={`Please head back to the homepage and pick an image to preview.`}
         />
       )}
-      {false && (
+      {!isLoading && !isFalse && (
         <div className="preview-page">
           <div className="preview-container">
             <div className="preview-header">
               {isMobile ? (
                 <>
-                  <IconContainer likeCount={likeCount} hideText={true} />
+                  <IconContainer
+                    type={type}
+                    item={item}
+                    likeCount={likeCount}
+                    hideText={true}
+                  />
                 </>
               ) : (
                 <>
                   <UserContainer avatar={avatarImage}>
                     <UserDetails username={username}></UserDetails>
                   </UserContainer>
-                  <IconContainer likeCount={likeCount} />
+                  <IconContainer
+                    type={type}
+                    item={item}
+                    likeCount={likeCount}
+                  />
                 </>
               )}
             </div>
@@ -304,6 +306,20 @@ function UserContainer(props) {
 }
 
 function IconContainer(props) {
+  async function downloadItem(url) {
+    try {
+      const res = await fetch(url);
+      const blob = await res.blob();
+
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = crypto.randomUUID();
+      link.click();
+    } catch (error) {
+      console.error("Error downloading the image:", error);
+    }
+  }
+
   return (
     <div className="icon-container">
       <IconButton iconClass="fa-regular fa-bookmark" className="bookmark-btn" />
@@ -314,11 +330,17 @@ function IconContainer(props) {
         className="like-btn"
         hideText={props.hideText}
       />
-      <div className="btn btn-square preview-download-btn">
+      <div className="btn btn-square dropdown-item preview-download-btn">
         <div className="text-section">Download</div>
         <div className="display-flex text-section icon-section">
           <Icon class="fa-solid fa-angle-right" />
         </div>
+
+        <DropDown default={true}>
+          <DropDownListItem onClick={() => downloadItem(props.item.fullHDURL)}>
+            {props.item.imageWidth} x {props.item.imageHeight} hello
+          </DropDownListItem>
+        </DropDown>
       </div>
     </div>
   );

@@ -149,10 +149,9 @@ body:has(.preview-page) .slider-container {
   grid-template-columns: 1fr 4rem;
   position: relative;
   background-color: #41c261;
-  color: white;
   border: none;
+  border-radius: 0.25rem;
   cursor: pointer;
-  overflow: hidden;
   padding: 0;
   gap: 0;
 }
@@ -161,7 +160,20 @@ body:has(.preview-page) .slider-container {
   background-color: #41c261;
 }
 
+.preview-download-btn .dropdown-list {
+  right: 0;
+  transform: scale(1);
+  top: calc(100% + 1rem);
+  border-radisu: 0.5rem;
+  padding: 0.5rem;
+}
+
+.preview-download-btn .list-item {
+  padding: 0.65rem 1rem;
+}
+
 .text-section {
+  color: white;
   position: relative;
   flex: 1;
   padding: 1rem 1.5rem;

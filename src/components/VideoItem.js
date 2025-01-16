@@ -43,7 +43,8 @@ function VideoItem({ videos, data }) {
     src,
     likes,
     videoSrc,
-    index
+    index,
+    video
   ) {
     let obj = {
       type,
@@ -55,6 +56,7 @@ function VideoItem({ videos, data }) {
       videoSrc,
       data,
       index,
+      item: video,
     };
     navigate("/preview", { state: obj });
   }
@@ -77,7 +79,8 @@ function VideoItem({ videos, data }) {
                 "",
                 video.likes,
                 video.videos.large.url,
-                index
+                index,
+                video
               )
             }
             key={video.videos.tiny.thumbnail}
