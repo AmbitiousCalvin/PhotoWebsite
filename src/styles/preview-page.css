@@ -34,6 +34,8 @@ body:has(.preview-page) .slider-container {
   flex-direction: column;
   padding: 2rem 2rem 3rem;
   gap: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 /* Preview Header */
@@ -218,4 +220,20 @@ body:has(.preview-page) .slider-container {
 
 .more-info-text:hover {
   opacity: 1;
+}
+
+.tags-container {
+  gap: 0.5rem;
+}
+
+.tags-container h1 {
+  font-size: 2.4rem;
+  margin-right: 1rem;
+  font-weight: bold;
+}
+
+.tags-container .btn {
+  font-size: 1.45rem;
+  padding: 0.7rem 1rem;
+  border-radius: 0.3rem;
 }

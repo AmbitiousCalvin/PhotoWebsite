@@ -5,10 +5,6 @@ import { useNavigate } from "react-router-dom";
 function VideoItem({ videos, data }) {
   const navigate = useNavigate();
 
-  for (let video of videos) {
-    video.tags = video.tags.split(",").splice(0, 3).join(", ");
-  }
-
   const calculateSpan = (videoHeight, videoWidth, rowHeight = 10) => {
     const aspectRatio = videoHeight / videoWidth;
     return Math.ceil(aspectRatio * rowHeight);
@@ -149,7 +145,7 @@ function VideoItem({ videos, data }) {
 
               <div className="photo-info">
                 <div className="photo-tags">
-                  <p>{video.tags}</p>
+                  <p>{video.tags.split(",").splice(0, 3).join(", ")}</p>
                 </div>
                 <div
                   className="download-btn"

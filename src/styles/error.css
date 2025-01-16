@@ -6,11 +6,16 @@
   text-align: center;
   padding: 2rem 2rem 3rem;
   background-color: #f8d7da;
-  border: 1px solid #f5c6cb;
+  border: 1px solid #f5c6cb !important;
   border-radius: 0.9rem;
   width: 100%;
   max-width: 40rem;
   margin: 2rem auto;
+}
+
+body:has(.error-component) * {
+  box-shadow: none;
+  border: none;
 }
 
 .not-found {

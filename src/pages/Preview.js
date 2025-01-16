@@ -2,6 +2,8 @@ import { MainContent } from "../main";
 import defaultUserProfile from "../images/user.png";
 import { Slider } from "../components/slider";
 import { InitialLoading } from "../components/loading";
+import { NotFoundpage } from "./NotFound";
+import ErrorComponent from "../components/ErrorPage";
 
 import {
   InputContainer,
@@ -9,7 +11,7 @@ import {
   DropDownListItem,
   Icon,
 } from "../components/general";
-import { useState, useEffect, useContext, useCallback } from "react";
+import { useState, useEffect, useContext, useCallback, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import "../styles/preview-page.css";
 import { MyContext } from "../App";
@@ -17,7 +19,16 @@ import { PhotoItem } from "../components/PhotoItem";
 
 function Preview() {
   const { handleSubmit, query, order } = useContext(MyContext);
+
   const [isLoading, setIsLoading] = useState(false);
+  const [isFalse, setIsFalse] = useState(false);
+
+  useEffect(() => {
+    setIsFalse(false);
+    if (!query || !handleSubmit || !order) {
+      setIsFalse(true);
+    }
+  }, []);
 
   const location = useLocation();
   const {
@@ -33,14 +44,15 @@ function Preview() {
   } = location.state || {};
 
   const apiKey = "47893918-d8d9d596b7cdac04fed7aca68";
-  let apiUrl =
-    type === "photo"
-      ? `https://pixabay.com/api/`
-      : "https://pixabay.com/api/videos/";
+  let apiUrl;
+
+  if (type !== "video") {
+    apiUrl = `https://pixabay.com/api/`;
+  } else {
+    apiUrl = `https://pixabay.com/api/videos/`;
+  }
 
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 435);
-  const likeCount = likes;
-
   const [newPage, setNewPage] = useState(1);
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -150,98 +162,130 @@ function Preview() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  function formatLikes(likes) {
+    if (likes > 1000000) return `${(likes / 1000000).toFixed(2)}m`;
+    if (likes > 1000) return `${(likes / 1000).toFixed(1)}k`;
+    return likes;
+  }
+
+  const likeCount = formatLikes(likes);
   const avatarImage = userImage || defaultUserProfile;
   const imageSrc = src;
 
   return (
     <>
       {isLoading && <InitialLoading />}
-
-      <div className="preview-page">
-        <div className="preview-container">
-          <div className="preview-header">
-            {isMobile ? (
-              <>
-                <IconContainer likeCount={likeCount} hideText={true} />
-              </>
-            ) : (
-              <>
+      {true && (
+        <NotFoundpage
+          title={"No Image selected."}
+          message={`Please head back to the homepage and pick an image to preview.`}
+        />
+      )}
+      {false && (
+        <div className="preview-page">
+          <div className="preview-container">
+            <div className="preview-header">
+              {isMobile ? (
+                <>
+                  <IconContainer likeCount={likeCount} hideText={true} />
+                </>
+              ) : (
+                <>
+                  <UserContainer avatar={avatarImage}>
+                    <UserDetails username={username}></UserDetails>
+                  </UserContainer>
+                  <IconContainer likeCount={likeCount} />
+                </>
+              )}
+            </div>
+            <ImgSlider
+              alt={alt}
+              src={imageSrc}
+              type={type}
+              videoSrc={videoSrc}
+            />
+            {isMobile && (
+              <div className="flex-row">
                 <UserContainer avatar={avatarImage}>
-                  <UserDetails username={username}></UserDetails>
+                  <p className="user-name">{username}</p>{" "}
                 </UserContainer>
-                <IconContainer likeCount={likeCount} />
-              </>
+                <div className="btn btn-square btn-white">Follow</div>
+              </div>
             )}
-          </div>
-          <ImgSlider alt={alt} src={imageSrc} type={type} videoSrc={videoSrc} />
-          {isMobile && (
-            <div className="flex-row">
-              <UserContainer avatar={avatarImage}>
-                <p className="user-name">{username}</p>{" "}
-              </UserContainer>
-              <div className="btn btn-square btn-white">Follow</div>
-            </div>
-          )}
-          <div className="flex-row more-info-container">
-            <div className="flex-column">
-              <div className="flex-row display-flex more-info-text">
-                <Icon class="fa-regular fa-circle-check" />
-                Free to use
+            <div className="flex-row more-info-container">
+              <div className="flex-column">
+                <div className="flex-row display-flex more-info-text">
+                  <Icon class="fa-regular fa-circle-check" />
+                  Free to use
+                </div>
+                <div className="flex-row display-flex more-info-text">
+                  Credit: Pixabay API.
+                </div>
               </div>
-              <div className="flex-row display-flex more-info-text">
-                Credit: Pixabay API.
+              <div className="flex-row " style={{ gap: "1rem" }}>
+                <IconButton
+                  iconClass="fa-solid fa-circle-info"
+                  text="More Info"
+                />
+                <IconButton
+                  iconClass="fa-regular fa-share-from-square"
+                  text="Share"
+                />
               </div>
             </div>
-            <div className="flex-row " style={{ gap: "1rem" }}>
-              <IconButton
-                iconClass="fa-solid fa-circle-info"
-                text="More Info"
-              />
-              <IconButton
-                iconClass="fa-regular fa-share-from-square"
-                text="Share"
-              />
+            <div className="flex-row tags-container">
+              <h1>Tags:</h1>
+              <br />
+              {alt &&
+                alt.split(",").map((item, index) => (
+                  <div
+                    key={index}
+                    className="btn btn-border btn-square btn-border-hover"
+                  >
+                    {item.trim()}
+                  </div>
+                ))}
             </div>
           </div>
-        </div>
 
-        <Slider
-          slider_items={[
-            { text: `${type === "photo" ? "Photos" : "Videos"}` },
-            { text: "Nature" },
-            { text: "Travel" },
-            { text: "Adventure" },
-            { text: "Food" },
-            { text: "Music" },
-            { text: "Art" },
-            { text: "Love" },
-            { text: "Beauty" },
-            { text: "Sports" },
-            { text: "Fitness" },
-            { text: "Technology" },
-            { text: "Fashion" },
-            { text: "Animals" },
-            { text: "Architecture" },
-            { text: "Landscape" },
-            { text: "Nightlife" },
-            { text: "Events" },
-            { text: "Holidays" },
-            { text: "Lifestyle" },
-            { text: "Science" },
-            { text: "History" },
-            { text: "Family" },
-            { text: "Culture" },
-            { text: "People" },
-            { text: "Urban" },
-          ]}
-        />
-        <MainContent
-          items={items}
-          type={type}
-          loading={loading}
-          error={error}
-        />
-      </div>
+          <Slider
+            slider_items={[
+              { text: `${type === "photo" ? "Photos" : "Videos"}` },
+              { text: "Nature" },
+              { text: "Travel" },
+              { text: "Adventure" },
+              { text: "Food" },
+              { text: "Music" },
+              { text: "Art" },
+              { text: "Love" },
+              { text: "Beauty" },
+              { text: "Sports" },
+              { text: "Fitness" },
+              { text: "Technology" },
+              { text: "Fashion" },
+              { text: "Animals" },
+              { text: "Architecture" },
+              { text: "Landscape" },
+              { text: "Nightlife" },
+              { text: "Events" },
+              { text: "Holidays" },
+              { text: "Lifestyle" },
+              { text: "Science" },
+              { text: "History" },
+              { text: "Family" },
+              { text: "Culture" },
+              { text: "People" },
+              { text: "Urban" },
+            ]}
+          />
+          <MainContent
+            items={items}
+            type={type}
+            loading={loading}
+            error={error}
+          />
+        </div>
+      )}
     </>
   );
 }
@@ -281,6 +325,44 @@ function IconContainer(props) {
 }
 
 function ImgSlider(props) {
+  const videoRef = useRef(null);
+
+  function handleLoadedData() {
+    if (!videoRef.current) return;
+    videoRef.current.play();
+  }
+
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (!videoRef.current) return; // Ensure the video element exists
+
+      const video = videoRef.current;
+
+      switch (event.key.toLowerCase()) {
+        case " ": // Spacebar
+        case "k": // Toggle play/pause
+          event.preventDefault(); // Prevent the default scroll action for Spacebar
+          if (video.paused) {
+            video.play();
+          } else {
+            video.pause();
+          }
+          break;
+
+        default:
+          break;
+      }
+    };
+
+    // Add event listener for keydown
+    window.addEventListener("keydown", handleKeyDown);
+
+    // Cleanup event listener on component unmount
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
+
   return (
     <div className={`img-slider`}>
       {/* <button className="icon slider-button left">
@@ -288,6 +370,8 @@ function ImgSlider(props) {
       </button> */}
       {props.videoSrc && (
         <video
+          ref={videoRef}
+          onLoadedData={handleLoadedData}
           className="video-element"
           autoplay
           controls

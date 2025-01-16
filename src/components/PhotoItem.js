@@ -4,9 +4,9 @@ import { useNavigate } from "react-router-dom";
 function PhotoItem({ photos, data }) {
   const navigate = useNavigate();
 
-  for (let photo of photos) {
-    photo.tags = photo.tags.split(",").splice(0, 3).join(", ");
-  }
+  // for (let photo of photos) {
+  //   photo.tags = photo.tags.split(",").splice(0, 3).join(", ");
+  // }
 
   const calculateSpan = (photoHeight, photoWidth, rowHeight = 10) => {
     const aspectRatio = photoHeight / photoWidth;
@@ -150,7 +150,7 @@ function PhotoItem({ photos, data }) {
 
               <div className="photo-info">
                 <div className="photo-tags">
-                  <p>{photo.tags}</p>
+                  <p>{photo.tags.split(",").splice(0, 3).join(", ")}</p>
                 </div>
                 <div
                   className="download-btn"

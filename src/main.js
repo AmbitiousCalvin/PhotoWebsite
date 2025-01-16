@@ -45,6 +45,7 @@ function MainContent(props) {
 
         {props.error && !props.loading && (
           <ErrorComponent
+            html={props.children}
             image={props.image}
             message={
               props.message

@@ -1,11 +1,10 @@
 import { MainContent } from "../main";
-import { Slider } from "../components/slider";
 import notFound from "../images/error-404.gif"; // Import the image
-import "../styles/slider.css";
+import "../styles/error.css";
 import { memo } from "react";
 import { Link } from "react-router-dom";
 
-function NotFoundpage() {
+function NotFoundpage(props) {
   return (
     <div className="not-found-page">
       <MainContent
@@ -16,9 +15,13 @@ function NotFoundpage() {
         error={"not-found"}
       >
         <div class="not-found-container">
-          <h1 class="not-found-title">Oops! Page Not Found</h1>
+          <h1 class="not-found-title">
+            Oops! {props.title || `Page Not Found`}
+          </h1>
           <p class="not-found-message">
-            We couldn’t find that page. Try going back to the{" "}
+            {!props.message && `We couldn’t find that page. Try going back to the`}
+            {props.message && `Please head back to the homepage and pick an image to preview.`}
+            {" "}
             <Link to="/" class="home-link">
               Home Page
             </Link>{" "}
