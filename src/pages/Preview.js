@@ -320,6 +320,8 @@ function IconContainer(props) {
     }
   }
 
+  const item = props.item;
+
   return (
     <div className="icon-container">
       <IconButton iconClass="fa-regular fa-bookmark" className="bookmark-btn" />
@@ -337,9 +339,36 @@ function IconContainer(props) {
         </div>
 
         <DropDown default={true}>
-          <DropDownListItem onClick={() => downloadItem(props.item.fullHDURL)}>
-            {props.item.imageWidth} x {props.item.imageHeight} hello
-          </DropDownListItem>
+          {props.type === "photo" && (
+            <DropDownListItem onClick={() => downloadItem(item.fullHDURL)}>
+              {item.imageWidth}x{item.imageHeight}
+            </DropDownListItem>
+          )}
+
+          {props.type === "video" && (
+            <>
+              <DropDownListItem
+                onClick={() => downloadItem(item.videos.large.url)}
+              >
+                Large: {item.videos.large.width}x{item.videos.large.height}
+              </DropDownListItem>
+              <DropDownListItem
+                onClick={() => downloadItem(item.videos.medium.url)}
+              >
+                Medicum: {item.videos.medium.width}x{item.videos.medium.height}
+              </DropDownListItem>
+              <DropDownListItem
+                onClick={() => downloadItem(item.videos.small.url)}
+              >
+                Small: {item.videos.small.width}x{item.videos.small.height}
+              </DropDownListItem>
+              <DropDownListItem
+                onClick={() => downloadItem(item.videos.tiny.url)}
+              >
+                Tiny: {item.videos.tiny.width}x{item.videos.tiny.height}
+              </DropDownListItem>
+            </>
+          )}
         </DropDown>
       </div>
     </div>
