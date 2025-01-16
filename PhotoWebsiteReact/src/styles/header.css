@@ -1,0 +1,226 @@
+/* Header */
+header {
+  width: 100%;
+  position: sticky;
+  top: 0;
+  left: 0;
+  padding: 1rem var(--padding);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  overflow-x: clip;
+  background-color: var(--bg-color); /* Changed */
+  z-index: 2000;
+  min-height: 7rem;
+}
+
+nav ul {
+  display: flex;
+  gap: 0.8rem;
+}
+
+.logo {
+  font-size: var(--h1-size);
+}
+
+header ul {
+  align-items: center;
+}
+
+.header-middle-section {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 1rem 0 2rem;
+  gap: 1.5rem;
+}
+
+.search-bar-icon {
+  display: none;
+}
+
+@media screen and (max-width: 800px) {
+  .header-middle-section .input-container {
+    display: none;
+  }
+  .header-middle-section.full-view .input-container {
+    display: flex;
+  }
+
+  .header-middle-section {
+    justify-content: flex-end;
+  }
+
+  .search-bar-icon {
+    display: flex;
+  }
+}
+
+.icon.nav-menu-icon {
+  display: none;
+}
+
+@media screen and (max-width: 580px) {
+  .icon.nav-menu-icon {
+    display: flex;
+  }
+}
+
+.header-middle-section.full-view {
+  justify-content: center;
+  margin: 0;
+}
+
+header:has(.header-middle-section.full-view) .logo,
+header:has(.header-middle-section.full-view) .header-right-section {
+  display: none;
+}
+
+/* Search Bar Styles */
+.input-container {
+  flex: 1;
+  max-width: 550px;
+  min-width: 5rem;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid transparent;
+  background-color: var(--color-grey); /* Unchanged */
+  transition: background-color 0.15s;
+  padding: 0 1.8rem;
+  border-radius: 2.5rem;
+  position: relative;
+}
+
+.input-container:has(.input-field:focus) {
+  border-color: var(--color-grey-border); /* Changed */
+  background-color: var(--bg-color); /* Changed */
+}
+
+.input-container:hover {
+  background-color: var(--color-grey-hover); /* Unchanged */
+}
+
+.input-container:has(.input-field:focus) {
+  border-color: var(--color-grey-border); /* Changed */
+  background-color: var(--bg-color); /* Changed */
+}
+
+.input-container i {
+  color: var(--color-white);
+}
+
+.header-middle-section.full-view .search-icon {
+  display: none;
+}
+
+.input-field {
+  font-size: 1.5rem;
+  flex: 1;
+  padding: 1.2rem 1.5rem;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  color: var(--color-white);
+}
+
+.input-field::placeholder {
+  opacity: 0.75;
+  color: var(--color-white);
+}
+
+@media screen and (max-width: 580px) {
+  nav {
+    display: none;
+  }
+}
+
+.sidebar-menu-container {
+  position: absolute;
+  background-color: var(--bg-color);
+  border-top: 1px solid var(--color-grey-border);
+  border-left: 2px solid var(--color-grey-border);
+  top: 7rem;
+  right: 0px;
+  display: flex;
+  padding: var(--padding);
+  flex-direction: column;
+  width: 100%;
+  transform: translateX(105%);
+  box-shadow: var(--box-shadow);
+  z-index: -1;
+  transition: transform 0.75s;
+}
+
+.sidebar-menu-container::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--bg-color);
+  z-index: -100;
+}
+
+body:has(.header-right-section.showMenu) {
+  overflow: hidden;
+  padding-right: 1.2rem;
+}
+
+.header-right-section.showMenu .sidebar-menu-container,
+.sidebar-menu-container.showMenu {
+  transition: transform 0.75s;
+  transform: translateX(0%);
+}
+
+.sidebar-menu-container .flex-container {
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.sidebar-menu-container .flex-container .btn {
+  width: 100%;
+  border-radius: 0.6rem;
+  justify-content: flex-start;
+  gap: 1rem;
+  background-color: transparent;
+}
+
+.sidebar-menu-container .flex-container .btn:hover {
+  background-color: var(--hover-color);
+}
+
+.social-container {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.social-link {
+  font-size: 2.2rem;
+  color: var(--color-white);
+}
+
+.social-link:hover i {
+  color: #0077b5;
+}
+
+.copyright-text {
+  text-align: center;
+  font-size: 1.1rem; /* Smaller font for copyright text */
+  color: #666;
+  margin-top: 1rem;
+}
+
+.btn.dropdown-item:hover .dropdown-list,
+.btn.dropdown-item.explore-btn:hover .dropdown-list,
+.btn.dropdown-item.explore-btn.hovering .dropdown-list,
+.btn.dropdown-item.hovering .dropdown-list {
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: scale(1);
+}

@@ -1,0 +1,26 @@
+.grid-item .author-info-mini {
+  display: none;
+}
+
+.grid-item {
+  max-height: 50rem;
+}
+
+.play-icon {
+  background-color: var(--color-white);
+  color: var(--color-dark);
+  opacity: 0.9;
+  transition: all 0.2s;
+}
+
+.grid-item:hover .play-icon {
+  opacity: 0;
+}
+
+.grid-item.loading .play-icon {
+  display: none;
+}
+
+.overlay .author-info {
+  display: flex;
+}

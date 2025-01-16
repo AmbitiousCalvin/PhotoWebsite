@@ -1,0 +1,77 @@
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 20vh;
+  background-color: var(--bg-color);
+}
+
+.dot {
+  width: 15px;
+  height: 15px;
+  margin: 0 5px;
+  background-color: var(--color-white);
+  border-radius: 50%;
+  animation: bounce 1.5s infinite ease-in-out;
+  animation-delay: var(--delay);
+}
+
+@keyframes bounce {
+  0%,
+  80%,
+  100% {
+    transform: scale(0);
+  }
+  40% {
+    transform: scale(1);
+  }
+}
+
+/* loading.css */
+body:has(.initial-loading-container) {
+  overflow: hidden;
+}
+
+.initial-loading-container {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100vw;
+  height: 100vh;
+  background: var(--bg-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 3000;
+}
+
+.spinner {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  gap: 1rem;
+}
+
+.line {
+  width: 0.5rem;
+  height: var(--height);
+  transform: scaleY(0.4);
+  background-color: var(--color-white);
+  animation: grow-shrink 0.75s infinite ease-in-out;
+  animation-delay: var(
+    --delay,
+    0s
+  ); /* Use the custom property for dynamic delay */
+}
+
+@keyframes grow-shrink {
+  0%,
+  100% {
+    transform: scaleY(0.4);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
